@@ -9,7 +9,7 @@ function createStore(reducer, initialState) {
   function dispatch(action){
     state = reducer(state, action);
     //invoke all functiosn kept in listeners!
-    listeners.foreach(subscribed_listener => subscribed_listener());
+    listeners.forEach((subscribed_listener) => subscribed_listener());
   }
   function subscribe(listener){
     listeners.push(listener);
@@ -25,7 +25,7 @@ function reducer(state, action){
   if(action.type == 'ADD_MESSAGE'){
     //NOTE: concat returns a NEW array 
     return {
-      messages: state.messages.concat(action.message);
+      messages: state.messages.concat(action.messages)
     }
   } else if(action.type == 'DELETE_MESSAGE'){
     //NOTE: Using spread operator!
