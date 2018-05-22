@@ -2,16 +2,14 @@
 //structured 
 
 import React from 'react';
-import { createStore } form 'redux';
+import { createStore, combineReducers } form 'redux';
 import uuid from 'uuid';
 
+const reducer =  combineReducers({
+  activeThreadId: activeThreadIdReducer, 
+  threads: threadsReducer
+});
 
-function reducer(state={}, action) {
-  return {
-    activeThreadId: activeThreadIdReducer(state.activeThreadId, action),
-    threads: threadsReducer(state.threads, action)
-  }
-}
 
 /**
  * []
