@@ -3,20 +3,21 @@
 ## Schedule
 |Course|Link|
 |-----|----:|
-|CS 329: Computational Linguistics [Emory University]|[link]()|
-|CS 571: Natural Language Processing [Emory University]|[link]()|
-|CS 188: Intro to AI [UC Berkeley]|[link]()|
-|CS 325: AI [Emory University]|[link]()|
+|CS 329: Computational Linguistics [Emory University]|[link](https://github.com/emory-courses/cs329/wiki/Schedule)|
+|CS 571: Natural Language Processing [Emory University]|[link](https://github.com/emory-courses/cs571/wiki/Schedule)|
+|CS 188: Intro to AI [UC Berkeley]|[link](http://ai.berkeley.edu/home.html)|
+|CS 325: AI [Emory University]|[link](https://github.com/emory-courses/cs325/wiki/Schedule)|
+|CS 124: From Languages to Information|[link](https://web.stanford.edu/class/cs124/#)|
 
 ## Books
-|Titles|Author|
-|-----|----:|
-|Speech and Language Proccessing|[Dan Jurafsky](https://web.stanford.edu/~jurafsky/slp3/)|
-|Information Retrieval|[Christopher D. Manning](https://nlp.stanford.edu/IR-book/)|
-|A Course In Machine Learning|[Hal Daumé III](http://ciml.info/)|
-|Elements of Statistical Learning|[Trevor Hastie](https://web.stanford.edu/~hastie/ElemStatLearn/)|
-|Machine Learning A Probalistic Perspective|[Kevin P. Murphy](https://www.cs.ubc.ca/~murphyk/)|
-|Pattern Recongition And Machine Learning|[Christopher Bishop](https://www.microsoft.com/en-us/research/people/cmbishop/)|
+|Order|Titles|Author|
+|----------------|:----:|----:|
+|1|Speech and Language Proccessing|[Dan Jurafsky](https://web.stanford.edu/~jurafsky/slp3/)|
+|2|Information Retrieval|[Christopher D. Manning](https://nlp.stanford.edu/IR-book/)|
+|3|A Course In Machine Learning|[Hal Daumé III](http://ciml.info/)|
+|4|Elements of Statistical Learning|[Trevor Hastie](https://web.stanford.edu/~hastie/ElemStatLearn/)|
+|5|Machine Learning A Probalistic Perspective|[Kevin P. Murphy](https://www.cs.ubc.ca/~murphyk/)|
+|6|Pattern Recongition And Machine Learning|[Christopher Bishop](https://www.microsoft.com/en-us/research/people/cmbishop/)|
 
 
 # SWE
@@ -52,12 +53,12 @@
 |Hannah Arendt|[link](https://plato.stanford.edu/entries/arendt/)|
 
 ## Government Books [Current Focus]
-|Philosopher|Book|
-|-----------|:--:|
-|Jürgen Habermas|Between Facts and Norms|
-|Alexis de Tocqueville|Democracy in America|
-|Noam Chomsky|Manufacturing Consent|
-|Hannah Arendt|Between Past and Future|
+|Order|Philosopher|Book|
+|-----|:---------:|--:|
+|1|Jürgen Habermas|Between Facts and Norms|
+|2|Hannah Arendt|Between Past and Future|
+|3|Noam Chomsky|Manufacturing Consent|
+|4|Alexis de Tocqueville|Democracy in America|
 
 ## Authenticity
 |Philosopher|link|
@@ -69,13 +70,13 @@
 |Emmanuel Levinas|[link](https://plato.stanford.edu/entries/levinas/)|
 
 ## Authenticity Books
-|Philosopher|Book|
-|-----------|:--:|
-|Martin Heidegger|Being and Time|
-|Jean-Paul Sartre|Being and Nothingness|
-|Søren Kierkegaard|Either/Or: A Fragment of Life|
-|Axel Honneth|The Struggle for Recognition|
-|Emmanuel Levinas|Otherwise than Being|
+|Order|Philosopher|Book|
+|-----|:---------:|--:|
+|1|Axel Honneth|The Struggle for Recognition|
+|2|Martin Heidegger|Being and Time|
+|3|Søren Kierkegaard|Either/Or: A Fragment of Life|
+|4|Emmanuel Levinas|Otherwise than Being|
+|5|Jean-Paul Sartre|Being and Nothingness|
 
 ## Recognition
 |Philosopher|link|
@@ -87,13 +88,13 @@
 |Nancy Fraser|[link](https://plato.stanford.edu/entries/femapproach-analy-cont/)|
 
 ## Recognition Books
-|Philosopher|Book|
-|-----------|:--:|
-|Georg Hegel|The Phenomenology of Spirit|
-|Jean Jacques Rousseau|Emile, or On Education|
-|Johann Gottlieb Fichte|Foundations of Natural Right|
-|Jacques Lacan|Ecrits|
-|Nancy Fraser|Capitalism: A Conversation in Critical Theory|
+|Order|Philosopher|Book|
+|-----|:---------:|--:|
+|1|Johann Gottlieb Fichte|Foundations of Natural Right|
+|2|Jacques Lacan|Ecrits|
+|3|Nancy Fraser|Capitalism: A Conversation in Critical Theory|
+|4|Jean Jacques Rousseau|Emile, or On Education|
+|5|Georg Hegel|The Phenomenology of Spirit|
 
 ## Economics
 |Philosopher|link|
@@ -107,12 +108,12 @@
 |George Stigler|[link](https://en.wikipedia.org/wiki/George_Stigler)|
 
 ## Economic Books
-|Philosopher|Book|
-|-----------|:--:|
-|Karl Marx|Communist Manifesto|
-|Rene Girard|I See Satan Fall Like Lightning|
-|Friedrich Hayek|The Road To Serfdom|
-|Milton Friedman|Capitalism and Freedom|
-|Thomas Sowell|The Economics and Politics of Race|
-|Oskar Lange|On the Economic Theory of Socialism|
-|George Stigler|Memoirs of an Unregulated Economist|
+|Order|Philosopher|Book|
+|-----|:---------:|--:|
+|1|Milton Friedman|Capitalism and Freedom|
+|2|Friedrich Hayek|The Road To Serfdom|
+|3|Thomas Sowell|The Economics and Politics of Race|
+|4|Oskar Lange|On the Economic Theory of Socialism|
+|5|George Stigler|Memoirs of an Unregulated Economist|
+|6|Karl Marx|Communist Manifesto|
+|7|Rene Girard|I See Satan Fall Like Lightning|
