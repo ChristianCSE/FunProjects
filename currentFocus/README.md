@@ -2,7 +2,7 @@
 # Courses
 ## Schedule
 |Order|Course|Link|
-|-----|:----:|----:|
+|----:|:----:|----:|
 |1|CS 124: From Languages to Information|[link](https://web.stanford.edu/class/cs124/#)|
 |2|CS 329: Computational Linguistics [Emory University]|[link](https://github.com/emory-courses/cs329/wiki/Schedule)|
 |3|CS 325: AI [Emory University]|[link](https://github.com/emory-courses/cs325/wiki/Schedule)|
@@ -11,7 +11,7 @@
 
 ## Books
 |Order|Titles|Author|
-|----------------|:----:|----:|
+|----:|:----:|----:|
 |1|Speech and Language Proccessing|[Dan Jurafsky](https://web.stanford.edu/~jurafsky/slp3/)|
 |2|Information Retrieval|[Christopher D. Manning](https://nlp.stanford.edu/IR-book/)|
 |3|A Course In Machine Learning|[Hal Daumé III](http://ciml.info/)|
@@ -70,8 +70,8 @@
 |Emmanuel Levinas|[link](https://plato.stanford.edu/entries/levinas/)|
 
 ## Authenticity Books
-|Order|Philosopher|Book|
-|-----|:---------:|--:|
+|Order|Titles|Author|
+|----:|:----:|----:|
 |1|Axel Honneth|The Struggle for Recognition|
 |2|Martin Heidegger|Being and Time|
 |3|Søren Kierkegaard|Either/Or: A Fragment of Life|
@@ -88,8 +88,8 @@
 |Nancy Fraser|[link](https://plato.stanford.edu/entries/femapproach-analy-cont/)|
 
 ## Recognition Books
-|Order|Philosopher|Book|
-|-----|:---------:|--:|
+|Order|Titles|Author|
+|----:|:----:|----:|
 |1|Johann Gottlieb Fichte|Foundations of Natural Right|
 |2|Jacques Lacan|Ecrits|
 |3|Nancy Fraser|Capitalism: A Conversation in Critical Theory|
@@ -108,8 +108,8 @@
 |George Stigler|[link](https://en.wikipedia.org/wiki/George_Stigler)|
 
 ## Economic Books
-|Order|Philosopher|Book|
-|-----|:---------:|--:|
+|Order|Titles|Author|
+|----:|:----:|----:|
 |1|Milton Friedman|Capitalism and Freedom|
 |2|Friedrich Hayek|The Road To Serfdom|
 |3|Thomas Sowell|The Economics and Politics of Race|
