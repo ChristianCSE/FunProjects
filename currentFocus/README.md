@@ -14,7 +14,7 @@
 |Speech and Language Proccessing|[Dan Jurafsky](https://web.stanford.edu/~jurafsky/slp3/)|
 |Information Retrieval|[Christopher D. Manning](https://nlp.stanford.edu/IR-book/)|
 |A Course In Machine Learning|[Hal Daumé III](http://ciml.info/)|
-|ELements of Statistical Learning|[Trevor Hastie](https://web.stanford.edu/~hastie/ElemStatLearn/)|
+|Elements of Statistical Learning|[Trevor Hastie](https://web.stanford.edu/~hastie/ElemStatLearn/)|
 |Machine Learning A Probalistic Perspective|[Kevin P. Murphy](https://www.cs.ubc.ca/~murphyk/)|
 |Pattern Recongition And Machine Learning|[Christopher Bishop](https://www.microsoft.com/en-us/research/people/cmbishop/)|
 
@@ -106,7 +106,7 @@
 |Oskar Lange|[link](https://en.wikipedia.org/wiki/Oskar_R._Lange)|
 |George Stigler|[link](https://en.wikipedia.org/wiki/George_Stigler)|
 
-## Economics Books
+## Economic Books
 |Philosopher|Book|
 |-----------|:--:|
 |Karl Marx|Communist Manifesto|
