@@ -3,26 +3,42 @@
 ## Schedule
 |Course|Link|
 |-----|----:|
-||[link]()|
-||[link]()|
-||[link]()|
-||[link]()|
+|CS 329: Computational Linguistics [Emory University]|[link]()|
+|CS 571: Natural Language Processing [Emory University]|[link]()|
+|CS 188: Intro to AI [UC Berkeley]|[link]()|
+|CS 325: AI [Emory University]|[link]()|
 
 ## Books
-|Titles|Link|
+|Titles|Author|
 |-----|----:|
-||[link]()|
-||[link]()|
-||[link]()|
-||[link]()|
+|Speech and Language Proccessing|[Dan Jurafsky](https://web.stanford.edu/~jurafsky/slp3/)|
+|Information Retrieval|[Christopher D. Manning](https://nlp.stanford.edu/IR-book/)|
+|A Course In Machine Learning|[Hal Daumé III](http://ciml.info/)|
+|ELements of Statistical Learning|[Trevor Hastie](https://web.stanford.edu/~hastie/ElemStatLearn/)|
+|Machine Learning A Probalistic Perspective|[Kevin P. Murphy](https://www.cs.ubc.ca/~murphyk/)|
+|Pattern Recongition And Machine Learning|[Christopher Bishop](https://www.microsoft.com/en-us/research/people/cmbishop/)|
+
 
 # SWE
-|Topics|Link|
-|------|---:|
-||[link]()|
-||[link]()|
-||[link]()|
-||[link]()|
+|Topics|
+|-----:|
+|React|
+|GraphQL|
+|Jest|
+|Enzyme|
+|Redux|
+|Enzyme|
+|Python|
+|Django|
+|Django REST|
+|MySQL|
+|RabbitMQ|
+|Celery|
+|Multithreading & Multiprocessing|
+|Java|
+|Java Spring|
+|Hibernate|
+|Gradle|
 
 # Philosophy 
 
