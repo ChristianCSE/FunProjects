@@ -34,7 +34,8 @@
 |MySQL|
 |RabbitMQ|
 |Celery|
-|Multithreading & Multiprocessing|
+|Multithreading|
+|Multiprocessing|
 |Java|
 |Java Spring|
 |Hibernate|
@@ -110,8 +111,8 @@
 |-----------|:--:|
 |Karl Marx|Communist Manifesto|
 |Rene Girard|I See Satan Fall Like Lightning|
-|Friedrich Hayek|a|
-|Milton Friedman|a|
-|Thomas Sowell|a|
-|Oskar Lange|a|
-|George Stigler|a|
+|Friedrich Hayek|The Road To Serfdom|
+|Milton Friedman|Capitalism and Freedom|
+|Thomas Sowell|The Economics and Politics of Race|
+|Oskar Lange|On the Economic Theory of Socialism|
+|George Stigler|Memoirs of an Unregulated Economist|
