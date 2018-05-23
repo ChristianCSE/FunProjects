@@ -1,13 +1,13 @@
 
 # Courses
 ## Schedule
-|Course|Link|
-|-----|----:|
-|CS 329: Computational Linguistics [Emory University]|[link](https://github.com/emory-courses/cs329/wiki/Schedule)|
-|CS 571: Natural Language Processing [Emory University]|[link](https://github.com/emory-courses/cs571/wiki/Schedule)|
-|CS 188: Intro to AI [UC Berkeley]|[link](http://ai.berkeley.edu/home.html)|
-|CS 325: AI [Emory University]|[link](https://github.com/emory-courses/cs325/wiki/Schedule)|
-|CS 124: From Languages to Information|[link](https://web.stanford.edu/class/cs124/#)|
+|Order|Course|Link|
+|-----|:----:|----:|
+|1|CS 124: From Languages to Information|[link](https://web.stanford.edu/class/cs124/#)|
+|2|CS 329: Computational Linguistics [Emory University]|[link](https://github.com/emory-courses/cs329/wiki/Schedule)|
+|3|CS 325: AI [Emory University]|[link](https://github.com/emory-courses/cs325/wiki/Schedule)|
+|4|CS 188: Intro to AI [UC Berkeley]|[link](http://ai.berkeley.edu/home.html)|
+|5|CS 571: Natural Language Processing [Emory University]|[link](https://github.com/emory-courses/cs571/wiki/Schedule)|
 
 ## Books
 |Order|Titles|Author|
