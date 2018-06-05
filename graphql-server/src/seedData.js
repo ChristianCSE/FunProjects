@@ -1,4 +1,7 @@
 
+
+
+
 //json file 
 import * as data from './data';
 import * as tables from './tables';
@@ -39,9 +42,7 @@ const createDatabase = () => {
   return sequencePromises(promises);
 }
 const isUndef = (property, name) => {
-  if(property === undefined) {
-    throw `${name} is undefined`;
-  }
+  if(property === undefined) throw `${name} is undefined`;
 };
 
 const insertData = () => {

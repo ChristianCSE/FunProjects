@@ -59,3 +59,13 @@ export const posts = sql.define({
     dataType: 'datetime'
   }]
 });
+
+//NOTE: Enforcing GLOBALLY UNIQUE ID
+export const dbIdToNodeId = (dbId, tableName) => {
+  return `${tableName}:${dbId}`;
+}
+
+export const splitNodeId = (node) => {
+  const [tableName, dbId] = node.split(':');
+  return { tableName, dbId };
+}

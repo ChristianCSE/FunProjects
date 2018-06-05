@@ -1,0 +1,12 @@
+
+
+
+GraphQL convention is to fetch lots of different types of objects 
+from the same top-level node field. 
+
+SQL dbs have diff tables for each type 
+REST APIs use distinct endpoints per type 
+=> Idiomatic GraphQL fetches ALL objs the same way; 
+  hence, need GLOBALLY UNIQUE IDENTIFIER 
+=> GraphQL cannot differentiate b/w User w/ id: 1 & Post w/ id: 1
+

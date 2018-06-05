@@ -12,8 +12,16 @@ export const getSql = (query) => {
     console.log(query.text);
     console.log(query.values); 
     //idk what db.all does 
+    //so db.all
+    console.log('About to invoke query ...');
+    //I'm guessing it looks like select ? from ? where id = ? 
+    //and values are the ? fillings
+    console.log('query.text: ', query.text);
+    console.log('query.values: ', query.values);
     db.all(query.text, query.values, (err, rows) => {
+      //callback
       if(err) rej(err); 
+      //if no error resolve and invoke next function
       res(rows);
     })
   })

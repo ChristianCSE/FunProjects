@@ -11,35 +11,62 @@ import graphqlHTTP from 'express-graphql';
 // then exposses an API for resolving raw GraphQL doc strings against that schema
 import { 
   GraphQLSchema, GraphQLObjectType, GraphQLString,
-  GraphQLNonNull, GraphQLID } from 'graphql';
+  GraphQLNonNull, GraphQLID 
+} from 'graphql';
+
+import {
+  NodeInterface, 
+  UserType,
+  PostType
+} from './src/types';
+
+import * as loaders from './src/loaders';
 
 
 //GraphQLObjectType: analogous to creating a new class, 
 //name is required, descrip isn't necessary but is encouraged.
 //name sets the type name in the GraphQL schema
+// const RootQuery = new GraphQLObjectType({
+//   name: 'RootQuery', 
+//   description: 'The root query', 
+//   fields: {
+//     viewer: {
+//       type: GraphQLString, 
+//       resolve() {
+//         return 'viewer!';
+//       }
+//     }, 
+//     //we've added a node field to our query
+//     node: {
+//       type: GraphQLString, 
+//       args: {
+//         id: {
+//           type: new GraphQLNonNull(GraphQLID)
+//         }
+//       }, 
+//       resolve(source, args) {
+//         return inMemoryStore[args.key];
+//       }
+//     }
+//   }
+// });
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
-  description: 'The root query', 
+  description: 'The root query [descr is optional]',
   fields: {
-    viewer: {
-      type: GraphQLString, 
-      resolve() {
-        return 'viewer!';
-      }
-    }, 
-    //we've added a node field to our query
     node: {
-      type: GraphQLString, 
+      type: NodeInterface, 
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID)
         }
-      }, 
+      },
       resolve(source, args) {
-        return inMemoryStore[args.key];
+        return loaders.getNodeById(args.id);
       }
-    }
-  }
+    } //node
+  } //fields
 });
 
 let inMemoryStore = {};
@@ -72,7 +99,13 @@ const RootMutation = new GraphQLObjectType({
 })
 
 
+// const Schema = new GraphQLSchema({
+//   query: RootQuery, 
+//   mutation: RootMutation
+// });
+
 const Schema = new GraphQLSchema({
+  types: [UserType, PostType],
   query: RootQuery, 
   mutation: RootMutation
 });
