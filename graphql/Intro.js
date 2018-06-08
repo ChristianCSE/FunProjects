@@ -205,3 +205,64 @@ let clientSubscriptionId = generateSubscriptionId();
 connectToRealtimeChannel(clientSubscriptionId, (newData) => {});
 //send GraphQL requests to tell the server to start sending updates 
 sendGraphQLSubscription(clientSubscriptionId);
+
+
+
+
+//example of making a graphql request
+
+
+let query = ' { graphQLHub } ';
+let options = {
+    method: 'POST', 
+    body: query, 
+    headers: {
+        'content-type': 'application/graphql'
+    }
+};
+
+fetch('https://graphqlhub.com/graphql', options)
+.then((res)=> {
+    return res.json();
+}).then((data) => {
+    console.log(JSON.stringify(data, null, 2));
+})
+
+//Relay & Apollo 
+//Relay: automates many of the best practices for 
+//react/graphql apps: caching, cache-bustring, and batching.
+/*
+if using Redux, you can probs swap REST or other API calls
+with GraphQL calls using fetch techn. 
+You won't get the colocated queries API that Relay or others
+provide, but it uses Redux under the hood to store GraphQL 
+cache & data. 
+*/
+
+
+//example of Apollo 
+class AboutGraphQLHub extends React.Component {
+    render(){
+        return <div> {this.props.about.graphQLHub} </div>;
+    }
+}
+
+const mapQueriesToProps = () => {
+    return {
+        about: {
+            query: '{ graphQLHub }'
+        }
+    }
+}
+
+const ConnectedAboutGraphQLHub = connect({
+    mapQueriesToProps
+})(AboutGraphQLHub) 
+
+
+
+
+
+
+
+

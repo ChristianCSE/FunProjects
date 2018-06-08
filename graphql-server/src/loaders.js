@@ -34,8 +34,10 @@ export const getFriendsForUser = (userSource) => {
   .where(table.user_id_a.equals(userSource.id))
   .toQuery(); //makes into query object (text, values)
 
+  //invokes query and returns Promise & data 
   return database.getSql(query)
   .then((rows)=>{
+    //per row makes tableName = getName which is the name of the user
     rows.forEach((row)=>{
       row.__tableName = table.users.getName();
     });

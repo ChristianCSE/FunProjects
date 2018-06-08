@@ -182,3 +182,140 @@ const Tabs = (props) => {
     </div> 
   );
 }
+
+//effectively we are passing all our substates & actions 
+//to the Tabs Component
+/*
+From react-redux README
+Connects a React component to a Redux store. 
+connect is a facade around connectAdvanced, 
+providing a convenient API for the most common use cases.
+*/
+const ThreadTabs = connect(
+  mapStateToTabsProps, 
+  mapDispatchToTabsProps
+)(Tabs); 
+
+class TextFieldSubmit extends React.Component {
+  //NOTE: this property belongs to this component 
+  //we didn't place this inside the store 
+  state = {
+    value: ''
+  };
+  
+  //using es6 arrow function binds 'this'; hence, lack 
+  //of fxnName.bind(this)
+  onChange = (event) => {
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+
+  handleSubmit = () => {
+    this.props.onSubmit(this.state.value);
+    //causes this entire component to re-render
+    this.setState({
+      value: ''
+    });
+  }
+
+  render() {
+    return(
+      <div className='ui input'> 
+        <input 
+          onChange={this.onChange} 
+          value={this.state.value} 
+          type='text'
+        />
+        <button
+          onClick={this.handleSubmit}
+          className='ui primary button'
+          type='submit'
+        >
+          Submit 
+        </button>
+      </div>
+    );
+  } 
+}
+
+const Thread = (props) => (
+  <div className = 'ui center aligned basic segment'>
+    <MessageList 
+      messages = { props.thread.messages }
+      onClick = { props.onMessageClick }
+    />
+    <TextFieldSubmit
+      onSubmit = { props.onMessageSubmit }
+    />
+  </div>
+);
+
+
+const MessageList = (props) => (
+  //NOTE: One div wraps all our messages
+  // {<jsx stuff>}
+  <div className='ui comments'>
+    {
+      props.messages.map(
+        (msg, index) => (
+          <div 
+            className= 'comment'
+            key = {index}
+            onClick = {() => props.onClick(msg.id)}
+          >
+            <div className='text'> {msg.text} 
+              <span className='metadata'> @ {msg.timestamp} </span> 
+            </div>
+          </div>
+        )
+      )
+    }
+  </div> 
+);
+
+//again we are mapping state to props as the fxn name says
+//this time it is related to Thread related state 
+const mapStateToThreadProps = (state) => (
+  {
+    thread: state.threads.find(
+      (a_thread) => a_thread.id === state.activeThreadId 
+    )
+  }
+);
+
+const mapDispatchToThreadProps = (dispatch) => (
+  {
+    onMessageClick: (id) => (
+      //dispatch(actionCreator(id))
+      //dispatch sends it to our combined reducer and 
+      //alters state accordingly to the action type
+      dispatch(deleteMessage(id))
+    ), 
+    dispatch 
+  }
+);
+
+
+const mergeThreadProps = (stateProps, dispatchProps) => (
+  {  
+    ...stateProps, 
+    ...dispatchProps, 
+    //NOTE: We're grabbing dispatch fxn from dispatchProps
+    //NOTE: it's passed from stateProps & we have access to this 
+    //due to the fact that connect allows this third method inside it's p
+    onMessageSubmit: (text) => (
+      dispatchProps.dispatch(addMessage(text, stateProps.thread.id))
+    )
+  }
+)
+
+const ThreadDisplay = connect(
+  mapStateToThreadProps, 
+  mapDispatchToThreadProps, 
+  mergeThreadProps
+)(Thread);
+
+//can still do import App from './CleanApp' and still receive WrappedApp as App
+export default WrappedApp; 
