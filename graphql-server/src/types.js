@@ -42,10 +42,13 @@ const resolveId = (source) => {
 export const UserType = new GraphQLObjectType({
   name: 'User', 
   interfaces: [ NodeInterface ],
+  //NOTE: WHY IS THIS A FUNCTION? 
+  //This is a fxn due to the Js variable hoisting works
+  //Look at field for friends, it's a recursive type definition (we are the type)
   fields: () => {
     return {
       id: {
-        type: new GraphQLNonNull(GraphQLId), 
+        type: new GraphQLNonNull(GraphQLID), 
         //note it's calling the fxn above
         resolve: resolveId
       }, 
@@ -59,17 +62,20 @@ export const UserType = new GraphQLObjectType({
           //source comes from ...
           return loaders.getFriendIdsForUser(source)
           .then(
-            (row) => {
-              const friendNodeId = tables.dbIdToNodeId(row.user_id_b, row.__tableName);
-              return loaders.getNodeById(friendNodeId);
-            }
-          )
-          return Promise.all(promises);
+            (rows) => {
+              const promises = rows.map(
+                (row) => {
+                  const friendNodeId = tables.dbIdToNodeId(row.user_id_b, row.__tableName);
+                  return loaders.getNodeById(friendNodeId);
+              }); //promises
+              console.log('at least made it here: ', promises);
+              return Promise.all(promises);
+          })
         }
-
       }
     }
   }
+})
   //fields can be a funtion or just straight object defined!
   /**
   fields: {
@@ -117,7 +123,7 @@ export const UserType = new GraphQLObjectType({
     }
   }
   */
-})
+
 
 export const PostType = new GraphQLObjectType({
   name: 'Post', 

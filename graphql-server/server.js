@@ -66,6 +66,9 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(source, args, context, info) {
+        // console.log('At least inside RootQuery');
+        //we are focusing on returning User types!
+        return loaders.getNodeById(args.id);
         /** 
         //Below is for performance
         //NOTE: contex = used with authentication & authorization 
