@@ -1,11 +1,14 @@
 
+//these are the types that the user can query!
 import {
   GraphQLInterfaceType, 
   GraphQLObjectType, 
   GraphQLID, 
   GraphQLString, 
   GraphQLNonNull, 
-  GraphQLList
+  GraphQLList, 
+  GraphQLBoolean, 
+  GraphQLInt
 } from 'graphql';
 
 //REMEMBER that * is usally bad practice to use!
@@ -72,6 +75,41 @@ export const UserType = new GraphQLObjectType({
               return Promise.all(promises);
           })
         }
+      },
+      posts: {
+        //new field for our UserType GraphQL Object
+        type: PostsConnectionType, 
+        args: {
+          //?
+          after: {
+            type: GraphQLString
+          }, 
+          //>
+          first: {
+            type: GraphQLInt
+          }
+        }, 
+        resolve(source, args) {
+          return loaders.getPostIdsForUser(source, args)
+          .then(({ rows, pageInfo}) => {
+            const promises = rows.map(
+              (row) => {
+                const postNodeId = tables.dbIdToNodeId(row.id, row.__tableName);
+                return loaders.getNodeById(postNodeId)
+                .then( 
+                  (node) => {
+                    const edge = {
+                      node, 
+                      cursor: row.__cursor
+                    };
+                    return edge;
+                  }
+                )
+              }
+            )
+            
+          })
+        }
       }
     }
   }
@@ -125,6 +163,9 @@ export const UserType = new GraphQLObjectType({
   */
 
 
+//NOTE: While there aren't any resolve fxn in some of 
+// these attributes, don't think you should avoid them all together
+
 export const PostType = new GraphQLObjectType({
   name: 'Post', 
   interfaces: [ NodeInterface ], 
@@ -140,4 +181,48 @@ export const PostType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString)
     }
   }
-})
+});
+
+const PageInfoType = new GraphQLObjectType({
+  name: 'PageInfo', 
+  fields: {
+    hasNextPage: {
+      type: new GraphQLNonNull(GraphQLBoolean)
+    }, 
+    hasPreviousPage: {
+      type: new GraphQLNonNull(GraphQLBoolean)
+    }, 
+    startCursor: {
+      type: GraphQLString
+    }, 
+    endCursor: {
+      type: GraphQLString
+    }
+  }
+});
+
+const PostEdgeType = new GraphQLObjectType({
+  name: 'PostEdge', 
+  fields: () => {
+    return {
+      cursor: {
+        type: new GraphQLNonNull(GraphQLString)
+      }, 
+      node: {
+        type: new GraphQLNonNull(PostType)
+      }
+    }
+  }
+});
+
+const PostsConnectionType = new GraphQLObjectType({
+  name: 'PostsConnection', 
+  fields: {
+    pageInfo: {
+      type: new GraphQLNonNull(PageInfoType)
+    }, 
+    edges: {
+      type: new GraphQLList(PostEdgeType)
+    }
+  }
+});
