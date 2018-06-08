@@ -26,21 +26,78 @@ export const getNodeById = (nodeId) => {
   })
 }
 
+//want getFriendIdsForUser
+//had getFriendsForUser
+export const getFriendIdsForUser = (userSource) => {
+  
+  //probably use better naming than 
+  //table (will confuse and use tables)
+  const table = tables.usersFriends; 
 
-export const getFriendsForUser = (userSource) => {
-  const table = table.usersFriends; 
+  //Construct Query 
   const query = table
   .select(table.user_id_b)
   .where(table.user_id_a.equals(userSource.id))
   .toQuery(); //makes into query object (text, values)
+  //without toQuery it's some object with a bunch of 
+  //attributes and fxns 
+  
+  console.log('some query object: ', query);
 
   //invokes query and returns Promise & data 
   return database.getSql(query)
   .then((rows)=>{
     //per row makes tableName = getName which is the name of the user
     rows.forEach((row)=>{
-      row.__tableName = table.users.getName();
+      row.__tableName = tables.users.getName();
     });
+    console.log('rows: ', rows);
+
     return rows;
+  })
+}
+
+export const getUserNodeWithFriends = (nodeId) => {
+  //NOTE: remember that we made our id unique by 
+  //concattenating table:id
+  const { tableName, dbId } = tables.splitNodeId(nodeId); 
+  //NOTE: table.something get's translated to sql query syntax 
+  
+  //This is supposed to get the user's profile along with all of their friends. 
+  //odd ... that it's using a left join
+  const query = tables.users
+  .select(tables.usersFriends.user_id_b, tables.users.star())
+  .from(
+    tables.users.leftJoin(tables.usersFriends)
+    .on(tables.usersFriends.user_id_a.equals(tables.users.id))
+  )
+  .where(table.users.id.equals(dbId))
+  .toQuery();
+
+  console.log('constructed query by getUserNodeWithFreinds: ', query);
+  
+  return database.getSql(query)
+  .then((rows)=> {
+
+    if (!rows[0]) return undefined; 
+
+    const __friends = rows.map(
+      (row) => {
+        return {
+          user_id_b : row.user_id_b, 
+          __tabeleName: tables.users.getName()
+        };
+      }
+    );
+
+    const source = {
+      id: rows[0].id, 
+      name: rows[0].name,
+      about: rows[0].about,
+      __tableName: tableName,
+      __friends: __friends
+    }
+    
+    return source; 
   })
 }

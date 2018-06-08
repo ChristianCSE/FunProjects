@@ -55,11 +55,12 @@ export const UserType = new GraphQLObjectType({
       //rather than just being not null
       type: new GraphQLList(GraphQLID),
       resolve(source){
-        return loaders.getFriendIdsForUser(source
-        ).then((rows)=>{
+        return loaders.getFriendIdsForUser(source)
+        .then((rows)=>{
+          
           return rows.map(
             (row)=>{
-              return tables.dbIdToNodeId(row.user_id_b, row,__tableName);
+              return tables.dbIdToNodeId(row.user_id_b, row.__tableName);
             })
         })
       }
