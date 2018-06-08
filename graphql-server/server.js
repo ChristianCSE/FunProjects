@@ -52,6 +52,8 @@ import * as loaders from './src/loaders';
 //   }
 // });
 
+//we enter this first when we make our graphql request? 
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
   description: 'The root query [descr is optional]',
@@ -64,6 +66,8 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(source, args, context, info) {
+        /** 
+        //Below is for performance
         //NOTE: contex = used with authentication & authorization 
         //NOTE: info = bag of objects including an abstract syntax tree (AST)
         //
@@ -107,6 +111,7 @@ const RootQuery = new GraphQLObjectType({
         else return loaders.getNodeById(args.id); 
 
         return loaders.getNodeById(args.id);
+        */
       }
     } //node
   } //fields
