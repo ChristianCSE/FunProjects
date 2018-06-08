@@ -67,6 +67,9 @@ const RootQuery = new GraphQLObjectType({
         //NOTE: contex = used with authentication & authorization 
         //NOTE: info = bag of objects including an abstract syntax tree (AST)
         //
+        console.log(source);
+        console.log(args); //id inside the graphql request
+        //node(id:"users:4") <= id:"users:id" is part of our args
         let includeFriends = false; 
         
         //AST optimization, these are look-ahead optimizatios
@@ -74,9 +77,13 @@ const RootQuery = new GraphQLObjectType({
         //NOTE: We look for User fragmnets on the node field's selection set
         //we determine if the fragment accesses the friends field
         //if it does => run new loader else run same loader
+        console.log('looking into info: ', info);
+        console.log('looking into fieldsASTs[0]: ', info.fieldASTs[0]);
+
         const selectionFragments = info.fieldASTs[0].selectionSet.selections; 
         const userSelections = selectionFragments.filter(
           (selection) => {
+            
             return (selection.kind === 'InlineFragment' && 
             selection.typeCondition.name.value === 'User');
           }
@@ -86,6 +93,8 @@ const RootQuery = new GraphQLObjectType({
           (selection) => {
             selection.selectionSet.selections.forEach(
               (innerSelection) => {
+                //if the "graph ql entry contians friends"
+                //that means we will need to retrieve them
                 if (innerSelection.name.value === 'friends') {
                   includeFriends = true;
                 }
@@ -94,7 +103,7 @@ const RootQuery = new GraphQLObjectType({
           }
         )
 
-        if (includeFriends) return loaders.getUserNodeWithFriends(arg.id);
+        if (includeFriends) return loaders.getUserNodeWithFriends(args.id);
         else return loaders.getNodeById(args.id); 
 
         return loaders.getNodeById(args.id);

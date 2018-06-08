@@ -36,6 +36,7 @@ const resolveId = (source) => {
   return tables.dbIdToNodeId(source.id, source.__tableName);
 }
 
+
 export const UserType = new GraphQLObjectType({
   name: 'User', 
   interfaces: [ NodeInterface ],
@@ -55,14 +56,31 @@ export const UserType = new GraphQLObjectType({
       //rather than just being not null
       type: new GraphQLList(GraphQLID),
       resolve(source){
-        return loaders.getFriendIdsForUser(source)
-        .then((rows)=>{
+        console.log('have source here: ', source);
+        // return loaders.getFriendIdsForUser(source)
+        // .then((rows)=>{
           
-          return rows.map(
-            (row)=>{
-              return tables.dbIdToNodeId(row.user_id_b, row.__tableName);
-            })
-        })
+        //   return rows.map(
+        //     (row)=>{
+        //       return tables.dbIdToNodeId(row.user_id_b, row.__tableName);
+        //     })
+        // })
+
+        //rather than making two separate queries we make one
+        //our object contains friends
+        if(source.__friends) {
+          return source.__friends.map(
+            (row) => tables.dbIdToNodeId(row.user_id_b, row.__tableName)
+          );
+        }
+        //our object does not have any friends; hence, call loader fxn
+        return loaders.getFriendIdsForUser(source)
+        .then(
+          (rows) => rows.map(
+            (row) => tables.dbIdToNodeId(row.user_id_b, row.__tableName)
+          )
+        );
+
       }
     }
   }

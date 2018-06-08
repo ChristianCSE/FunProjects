@@ -68,28 +68,37 @@ export const getUserNodeWithFriends = (nodeId) => {
   const query = tables.users
   .select(tables.usersFriends.user_id_b, tables.users.star())
   .from(
+    //we are doing a left join with users & usersFriends table 
     tables.users.leftJoin(tables.usersFriends)
+    //properties usersFriends.user_id_a = users.id 
     .on(tables.usersFriends.user_id_a.equals(tables.users.id))
   )
-  .where(table.users.id.equals(dbId))
+  //the person we care about is from our args id
+  .where(tables.users.id.equals(dbId))
   .toQuery();
 
   console.log('constructed query by getUserNodeWithFreinds: ', query);
   
   return database.getSql(query)
   .then((rows)=> {
-
+    //this is our db response
     if (!rows[0]) return undefined; 
 
+    //go through each individual row and make 
+    //a friends array filed with objects, each individual 
+    //object is a friend represented by their id and name
     const __friends = rows.map(
       (row) => {
         return {
           user_id_b : row.user_id_b, 
-          __tabeleName: tables.users.getName()
+          //you spelled table incorreclty; hence, you had undefined:#
+          __tableName: tables.users.getName()
         };
       }
     );
 
+    //source: looks like some payload, but I'm unsure 
+    //why we use row[0]? does that represent you? 
     const source = {
       id: rows[0].id, 
       name: rows[0].name,
@@ -97,7 +106,7 @@ export const getUserNodeWithFriends = (nodeId) => {
       __tableName: tableName,
       __friends: __friends
     }
-    
+    console.log('what is source: ', source);
     return source; 
   })
 }

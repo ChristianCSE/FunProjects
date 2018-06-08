@@ -62,6 +62,9 @@ export const posts = sql.define({
 
 //NOTE: Enforcing GLOBALLY UNIQUE ID
 export const dbIdToNodeId = (dbId, tableName) => {
+  if(dbId === undefined) console.error('dbId is undef!');
+  if(tableName === undefined) console.error('tableName undef!');
+  
   return `${tableName}:${dbId}`;
 }
 
