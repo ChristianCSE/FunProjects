@@ -160,7 +160,9 @@ export const getPostIdsForUser = (userSource, args) => {
     //set the cursors to the first & last args from our elements array
     if (rows.length > 0) {
       pageInfo.startCursor = rows[0].__cursor; 
-      pageInfo.endCursor - rows[rows.length  - 1].__cursor; 
+      //how the hell does it not throw an error for this?????
+      //pageInfo.endCursor - rows[rows.length  - 1].__cursor;
+      pageInfo.endCursor = rows[rows.length - 1].__cursor; 
     }
     console.log('response bacK: ', { rows, pageInfo});
     return { rows, pageInfo };
