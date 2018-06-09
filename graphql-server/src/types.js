@@ -92,12 +92,19 @@ export const UserType = new GraphQLObjectType({
         resolve(source, args) {
           return loaders.getPostIdsForUser(source, args)
           .then(({ rows, pageInfo}) => {
+            console.log('UserType, response back: ', { rows, pageInfo });
+            //fetched posts from user in db
+            //iterating through individual entry 
+            //I'm unsure where it gets wrapped in a promise ... ? 
             const promises = rows.map(
               (row) => {
                 const postNodeId = tables.dbIdToNodeId(row.id, row.__tableName);
+                console.log('postNodeId: ', postNodeId);
+                //fetch the actual post? 
                 return loaders.getNodeById(postNodeId)
                 .then( 
                   (node) => {
+                    console.log("node: ", node);
                     const edge = {
                       node, 
                       cursor: row.__cursor
@@ -106,8 +113,13 @@ export const UserType = new GraphQLObjectType({
                   }
                 )
               }
-            )
-            
+            );
+            //wait for all promises to be resolved until moving on
+            return Promise.all(promises)
+            .then((edges) => {
+              return { edges, pageInfo };
+            });
+
           })
         }
       }
@@ -183,6 +195,7 @@ export const PostType = new GraphQLObjectType({
   }
 });
 
+//
 const PageInfoType = new GraphQLObjectType({
   name: 'PageInfo', 
   fields: {

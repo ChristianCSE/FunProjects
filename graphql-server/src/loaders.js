@@ -110,3 +110,59 @@ export const getUserNodeWithFriends = (nodeId) => {
     return source; 
   })
 }
+
+
+export const getPostIdsForUser = (userSource, args) => {
+  console.log('getPostIdsForUser');
+  let { after, first } = args; 
+  if (!first) first = 2; 
+  const table = tables.posts; 
+  
+  //Getting all the posts made by the user
+  //select id, created_at from post where user_id = 'given_id'
+  //order by created_at asc limit first+1
+  let query = table
+  .select(table.id, table.created_at)
+  .where(table.user_id.equals(userSource.id))
+  .order(table.created_at.asc)
+  .limit(first + 1); //requesting 1 more row than what the user requested (hence slice)
+
+  console.log('before checking after ...');
+  //NOTE: Checking if after cursor was passed 
+  //cursor, in this case, are strings composed of row ids & row dates
+  if (after) {
+    const [ id, created_at ] = after.split(':'); 
+    //seems continue to append where conditionals to our query ... ? 
+    query = query
+    .where(table.created_at.gt(after))
+    .where(table.id.gt(id));
+  }
+  const actualQuery = query.toQuery();
+  console.log('making query request: ', actualQuery);
+  return database.getSql(actualQuery)
+  .then((allRows) => {
+    console.log('getPostIdsForUser db response', allRows); 
+    const rows = allRows.slice(0, first); //prev requested +1 
+      //constructing cursor for each row 
+    rows.forEach((row) => {
+      //tableName is set for future join
+      row.__tableName = tables.posts.getName(); 
+      row.__cursor = row.id + ':' + row.created_at; 
+    })
+    const hasNextPage = allRows.length > first;
+    //we don't support before & last arg; hence
+    //, we set hasPreviousPage to false
+    const hasPreviousPage = false; 
+    const pageInfo = {
+      hasNextPage: hasNextPage, 
+      hasPreviousPage: hasPreviousPage
+    };
+    //set the cursors to the first & last args from our elements array
+    if (rows.length > 0) {
+      pageInfo.startCursor = rows[0].__cursor; 
+      pageInfo.endCursor - rows[rows.length  - 1].__cursor; 
+    }
+    console.log('response bacK: ', { rows, pageInfo});
+    return { rows, pageInfo };
+  }
+)};
