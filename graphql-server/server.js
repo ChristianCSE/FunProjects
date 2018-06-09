@@ -2,6 +2,8 @@
 console.log({ starting: true });
 
 import express from 'express';
+//Used for validation 
+import basicAuth from 'basic-auth-connect';
 
 const app = express(); 
 
@@ -163,6 +165,14 @@ const Schema = new GraphQLSchema({
 
 //simply adding the field graphiql: true
 //will grant us graphiql ui on the route /graphql 
+
+//app.use() is middleware 
+//this needs to come before graphqlHTTP (since use is used in order)
+//NOTE: authentication is being decoupled from GraphQL schema!
+//you can pass username & password into GraphQL query for authn but Graphql idiomatically
+//tends to separate concerns!
+app.use(basicAuth((user, pass) => (pass=='mypassword1') ));
+
 app.use('/graphql', graphqlHTTP({ schema: Schema, graphiql: true }));
 
 // app.use('/graphql', (req, res) => {

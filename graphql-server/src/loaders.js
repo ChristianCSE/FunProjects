@@ -131,12 +131,14 @@ export const getPostIdsForUser = (userSource, args) => {
   //NOTE: Checking if after cursor was passed 
   //cursor, in this case, are strings composed of row ids & row dates
   if (after) {
+    //if user provide an after arg in their node() graphql look up
     const [ id, created_at ] = after.split(':'); 
     //seems continue to append where conditionals to our query ... ? 
     query = query
     .where(table.created_at.gt(after))
     .where(table.id.gt(id));
   }
+
   const actualQuery = query.toQuery();
   console.log('making query request: ', actualQuery);
   return database.getSql(actualQuery)
