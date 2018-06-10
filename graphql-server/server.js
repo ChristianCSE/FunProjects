@@ -60,6 +60,12 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
   description: 'The root query [descr is optional]',
   fields: {
+    viewer: {
+      type: NodeInterface, 
+      resolve(source, args, context) {
+        return loaders.getNodeById(context);
+      }
+    },
     node: {
       type: NodeInterface, 
       args: {
@@ -173,7 +179,14 @@ const Schema = new GraphQLSchema({
 //tends to separate concerns!
 app.use(basicAuth((user, pass) => (pass=='mypassword1') ));
 
-app.use('/graphql', graphqlHTTP({ schema: Schema, graphiql: true }));
+// app.use('/graphql', graphqlHTTP({ schema: Schema, graphiql: true }));
+app.use('/graphql', graphqlHTTP((req) => {
+  const context = 'users:' + req.user; 
+  //NOTE: This returns an object for ALL graphiql (graphql) request!
+  //context, in our case, is user name!
+  return { schema: Schema, graphiql: true, context, pretty: true };
+  })
+);
 
 // app.use('/graphql', (req, res) => {
 //   res.send({ data: true });

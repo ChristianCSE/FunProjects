@@ -112,7 +112,32 @@ export const getUserNodeWithFriends = (nodeId) => {
 }
 
 
-export const getPostIdsForUser = (userSource, args) => {
+const getFriendshipLevels = (nodeId) => {
+  const { dbId } = tables.splitNodeId(nodeId);
+  const table = tables.usersFriends; 
+  //select * from users_friends where user_id = 'given'
+  let query = table
+  .select(table.star())
+  .where(table.user_id_a.equals(dbId));
+  
+  return database.getSql(query.toQuery())
+  .then((rows)=>{
+    const levelMap = {}; 
+    rows.forEach((row)=>{
+      levelMap[row.user_id_b] = row.level; 
+    });
+    return levelMap;
+  })
+};
+
+const canAccessLevel = (viewerLevel, contentLevel) => {
+  const levels = ['public', 'acquaintance', 'friend', 'top'];
+  const viewerLevelIndex = levels.indexOf(viewerLevel);
+  const contentLevelIndex = levels.indexOf(contentLevel);
+  return viewerLevelIndex >= contentLevelIndex;
+}
+
+export const getPostIdsForUser = (userSource, args, context) => {
   console.log('getPostIdsForUser');
   let { after, first } = args; 
   if (!first) first = 2; 
@@ -122,10 +147,12 @@ export const getPostIdsForUser = (userSource, args) => {
   //select id, created_at from post where user_id = 'given_id'
   //order by created_at asc limit first+1
   let query = table
-  .select(table.id, table.created_at)
+  //added table.level (will be using to filter down our db query results!)
+  .select(table.id, table.created_at, table.level)
   .where(table.user_id.equals(userSource.id))
   .order(table.created_at.asc)
-  .limit(first + 1); //requesting 1 more row than what the user requested (hence slice)
+  .limit(first + 10); //requesting 1 more row than what the user requested (hence slice)
+  //updated to 10 
 
   console.log('before checking after ...');
   //NOTE: Checking if after cursor was passed 
@@ -141,9 +168,16 @@ export const getPostIdsForUser = (userSource, args) => {
 
   const actualQuery = query.toQuery();
   console.log('making query request: ', actualQuery);
-  return database.getSql(actualQuery)
-  .then((allRows) => {
+  return Promise.all([
+    database.getSql(actualQuery),
+    getFriendshipLevels(context)
+  ]).then(([allRows, friendshipLevels]) => {
     console.log('getPostIdsForUser db response', allRows); 
+    //adding authorization to our friend search connection
+    //we are preventing from accessing all levels of friends!
+    allRows = allRows.filter((row)=>{
+      return canAccessLevel(friendshipLevels[userSource.id], row.level);
+    })
     const rows = allRows.slice(0, first); //prev requested +1 
       //constructing cursor for each row 
     rows.forEach((row) => {

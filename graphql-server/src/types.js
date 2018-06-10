@@ -65,7 +65,7 @@ export const UserType = new GraphQLObjectType({
           //source comes from ...
           return loaders.getFriendIdsForUser(source)
           .then(
-            (rows) => {
+            (rows ) => {
               const promises = rows.map(
                 (row) => {
                   const friendNodeId = tables.dbIdToNodeId(row.user_id_b, row.__tableName);
@@ -88,9 +88,11 @@ export const UserType = new GraphQLObjectType({
           first: {
             type: GraphQLInt
           }
-        }, 
-        resolve(source, args) {
-          return loaders.getPostIdsForUser(source, args)
+        },
+        //NOTE: ALL resolve functions have access to "context" regardless of their depth
+        resolve(source, args, context) {
+          
+          return loaders.getPostIdsForUser(source, args, context)
           .then(({ rows, pageInfo}) => {
             console.log('UserType, response back: ', { rows, pageInfo });
             //fetched posts from user in db
