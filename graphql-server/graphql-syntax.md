@@ -42,7 +42,16 @@ We are sending our arg to the resolve function of
 
 `loaders.getNodeById(args.id)` returns the node id of the user. 
 the `... on User` makes it so the returned db entry is passed to 
-`UserType.fields.posts.resolve`. Lastly, we go to `... on Post`.
+`UserType.fields.posts.resolve`. NOTE: we receive the input from `source`.
+
+```js 
+  resolve(source) {
+    return loaders.getFriendIdsForUser(source)
+    .then((rows)=> /*more code...*/)
+  }
+```
+
+Lastly, we go to `... on Post`.
 (Note: the names of these datatypes are inside the name field of 
 each GraphQLObjectType!). This, unlike the previous graphql objects does
 not have a resolve function!

@@ -13,8 +13,12 @@ import graphqlHTTP from 'express-graphql';
 //exposes APIs that let us construct our schema, and 
 // then exposses an API for resolving raw GraphQL doc strings against that schema
 import { 
-  GraphQLSchema, GraphQLObjectType, GraphQLString,
-  GraphQLNonNull, GraphQLID 
+  GraphQLSchema, 
+  GraphQLObjectType, 
+  GraphQLString,
+  GraphQLNonNull, 
+  GraphQLID, 
+  GraphQLEnumType 
 } from 'graphql';
 
 import {
@@ -25,6 +29,24 @@ import {
 
 import * as loaders from './src/loaders';
 
+
+const LevelEnum = new GraphQLObjectType({
+  name: 'PrivacyLevel', 
+  values: {
+    PUBLIC: {
+      value: 'public'
+    }, 
+    ACQUAINTANCE: {
+      value: 'acquaintance'
+    }, 
+    FRIEND: {
+      value: 'friends'
+    }, 
+    TOP: {
+      value: 'top'
+    }
+  }
+});
 
 //GraphQLObjectType: analogous to creating a new class, 
 //name is required, descrip isn't necessary but is encouraged.
@@ -60,12 +82,14 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
   description: 'The root query [descr is optional]',
   fields: {
+
     viewer: {
       type: NodeInterface, 
       resolve(source, args, context) {
         return loaders.getNodeById(context);
       }
     },
+
     node: {
       type: NodeInterface, 
       args: {
@@ -135,11 +159,13 @@ const RootMutation = new GraphQLObjectType({
   name: 'RootMutation', 
   description: 'The root mutation', 
   fields: {
-    //?
+    //this is a field of our RootMutation object
+    //note that we define args that it takes along
+    //with its resolve method
     setNode: {
       //resolve() must return a string 
       //due to type = string! 
-      type: GraphQLString,
+      type: GraphQLString, //this is the return type 
       //? 
       args: {
         id: {
@@ -156,7 +182,27 @@ const RootMutation = new GraphQLObjectType({
         //we return a string in order to coperate with type: GraphQLString
         return inMemoryStore[args.key];
       }
+    }, 
+    //attribute for GraphQLObjectType
+    createPost: {
+      //the resolve function should return a PostType datatype 
+      type: PostType, 
+      //our args passed into resolve should be these datatypes
+      args: {
+        body: {
+          type: new GraphQLNonNull(GraphQLString)
+        }, 
+        level: {
+          type: new GraphQLNonNull(LevelEnum)
+        }
+      },
+      //how we resolved passed input into our RootMutation.createPost()
+      resolve(source, args, context) {
+        return loaders.createPost(args.body, args.level, context)
+        .then((nodeId) => loaders.getNodeById(nodeId));
+      }
     }
+
   }
 })
 
