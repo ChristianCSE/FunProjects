@@ -19,6 +19,7 @@ export const getNodeById = (nodeId) => {
   //promise is returned in resolve
   //so if we did const container = database.getSql(query); 
   //we would have a pending promise!
+  console.log('\n basic getNodeById request \n');
   return database.getSql(query)
   .then((rows) => {
     if(rows[0]) rows[0].__tableName = tableName; 

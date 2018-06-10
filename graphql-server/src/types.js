@@ -62,6 +62,7 @@ export const UserType = new GraphQLObjectType({
         //inside our list are UserType which are an GraphQLObjectType that we defined
         type: new GraphQLList(UserType), 
         resolve(source) {
+          console.log('\n inside UserType resolve() ... \n');
           //source comes from ...
           return loaders.getFriendIdsForUser(source)
           .then(
@@ -91,7 +92,7 @@ export const UserType = new GraphQLObjectType({
         },
         //NOTE: ALL resolve functions have access to "context" regardless of their depth
         resolve(source, args, context) {
-          
+          console.log('\n You invoked something like ... on User \n');
           return loaders.getPostIdsForUser(source, args, context)
           .then(({ rows, pageInfo}) => {
             console.log('UserType, response back: ', { rows, pageInfo });
@@ -126,7 +127,7 @@ export const UserType = new GraphQLObjectType({
         }
       }
     }
-  }
+  } //fields!
 })
   //fields can be a funtion or just straight object defined!
   /**

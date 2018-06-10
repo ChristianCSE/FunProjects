@@ -74,6 +74,7 @@ const RootQuery = new GraphQLObjectType({
         }
       },
       resolve(source, args, context, info) {
+        console.log('\ninside rootquery, args=id\n');
         // console.log('At least inside RootQuery');
         //we are focusing on returning User types!
         return loaders.getNodeById(args.id);
@@ -129,6 +130,7 @@ const RootQuery = new GraphQLObjectType({
 });
 
 let inMemoryStore = {};
+
 const RootMutation = new GraphQLObjectType({
   name: 'RootMutation', 
   description: 'The root mutation', 
@@ -149,6 +151,7 @@ const RootMutation = new GraphQLObjectType({
       }, 
       //?
       resolve(source, args) {
+        console.log('\ninside root mutation and args = id & value\n');
         inMemoryStore[args.key] = args.value;
         //we return a string in order to coperate with type: GraphQLString
         return inMemoryStore[args.key];
@@ -163,6 +166,7 @@ const RootMutation = new GraphQLObjectType({
 //   mutation: RootMutation
 // });
 
+//NOTE: query => RootQuery 
 const Schema = new GraphQLSchema({
   types: [UserType, PostType],
   query: RootQuery, 
