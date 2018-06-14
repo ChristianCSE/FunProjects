@@ -201,6 +201,6 @@ export const createPost = (body, level, context) => {
     let text = 'SELECT last_insert_rowid() AS id FROM posts';
     return database.getSql({text});
   }).then((ids)=>{
-    return tables.dbIdToNodeId(id[0].id, tables.posts.getName());
+    return tables.dbIdToNodeId(ids[0].id, tables.posts.getName());
   });
 }

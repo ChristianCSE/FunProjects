@@ -80,6 +80,7 @@ const RootMutation = new GraphQLObjectType({
         value: { type: new GraphQLNonNull(GraphQLString) }
       }, 
       resolve(source, args) {
+        console.log('making some request here: ', args);
         inMemoryStore[args.key] = args.value; 
         return inMemoryStore[args.key];
       }
@@ -91,8 +92,14 @@ const RootMutation = new GraphQLObjectType({
         level: { type: new GraphQLNonNull(LevelEnum) }
       }, 
       resolve(source, args, context) {
+        console.log('RootMutation.createPost.resolve() ', args);
+        console.log('RootMutation.createPost.resolve() ', context);
         return loaders.createPost(args.body, args.level, context)
-        .then(loaders.getNodeById);
+        .then((nodeId) => loaders.getNodeById(nodeId))
+        .catch((err) => {
+          console.error('RootMutation.createPost.resolve() ', err);
+          return;
+        })
       }
     }
   }
