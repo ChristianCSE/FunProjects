@@ -37,8 +37,13 @@ const nodeLoaders = {
   userFriends: createNodeLoader(tables.userFriends)
 };
 
+/**
+ * getNodeById(): return requested rows from table 
+ * requires nodeId which should contain tableName:rowEntryID
+*/
 export const getNodeById = (nodeId) => {
   const { tableName, dbId } = tables.splitNodeId(nodeId); 
+  //invoke the appropriate query 
   return nodeLoaders[tableName].load(dbId);
 }
 
