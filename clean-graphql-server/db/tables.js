@@ -80,7 +80,7 @@ export const dbIdToNodeId = (dbId, tableName) => {
   return `${tableName}:${dbId}`;
 }
 
-export const splitNode = (node) => {
+export const splitNodeId = (node) => {
   const [tableName, dbId] = node.split(':');
   return { tableName, dbId };
 }
