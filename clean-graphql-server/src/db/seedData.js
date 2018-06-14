@@ -62,6 +62,7 @@ const insertData = () => {
   let promises = queries.map((qry) => {
     return () => database.getSql(qry);
   });
+  
   return sequencePromises(promises);
 }
 

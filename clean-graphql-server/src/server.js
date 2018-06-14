@@ -24,6 +24,13 @@ import {
   PostType
 } from './graphql-ds/types';
 
+import * as loaders from './loaders/loaders';
+
+const app = express(); 
+
+console.debug = (...args) => {
+  console.log(...args);
+}
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
@@ -42,7 +49,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLID) }
       }, 
       resolve(source, args, context, info) {
-        return loadres.getNodeById(args.id);
+        return loaders.getNodeById(args.id);
       }
     }
   }

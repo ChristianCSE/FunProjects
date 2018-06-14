@@ -1,11 +1,10 @@
 
 
 import {
-  GraphQLInterface, 
+  GraphQLInterfaceType, 
   GraphQLObjectType, 
   GraphQLID, 
-  GraphQLString, 
-  GraphQLString, 
+  GraphQLString,  
   GraphQLNonNull, 
   GraphQLList, 
   GraphQLInt
