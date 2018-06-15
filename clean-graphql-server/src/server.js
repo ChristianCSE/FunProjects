@@ -32,6 +32,7 @@ console.debug = (...args) => {
   console.log(...args);
 }
 
+//NOTE: Root provides a resolver fxn for EACH API endpoint
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery', 
   description: 'Desc is optional', 
