@@ -1,5 +1,5 @@
 
-
+# basic read
 ```graphql
 {
   node(id:"users:2") {
@@ -55,3 +55,26 @@ Lastly, we go to `... on Post`.
 (Note: the names of these datatypes are inside the name field of 
 each GraphQLObjectType!). This, unlike the previous graphql objects does
 not have a resolve function!
+
+
+
+# insert (aka Mutation)
+
+```graphql
+mutation {
+  createPost(body:"First post!", level:PUBLIC){
+    id 
+    body 
+  }
+}
+```
+so we set up schema in 'server.js'
+```js
+const Schema = new GraphQLSchema({
+  types: [UserType, PostType], 
+  query: RootQuery, 
+  mutation: RootMutation 
+})
+```
+Note that mutation is set to our `GraphQLObjectType` called `RootMutation`
+

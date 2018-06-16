@@ -157,6 +157,35 @@ mutation {
 ```
 
 
+# Incorporating Express 
+
+Lastly, in order to connect this to express along with some sort of 
+authentication we just do: 
+
+```js
+import basicAuth from 'basic-auth-connect';
+import graphqlHTTP from 'express-graphql';
+import express from 'express';
+const app = express();
+//realistically you would make a db request and see if the user entered the 
+//matching db password! (remember that use is our middleware)
+app.use( basicAuth((user, pass) => (pass==='mypassword1') )); 
+
+//set graphql route 
+app.use('/graphql', graphqlHTTP( (req) => {
+ const context = 'users:' + req.user;
+ return {
+  shcema: Schema, 
+  graphql: true, 
+  context, 
+  pretty: true
+ };
+}))
+
+//set port 
+app.listen(3000, () => { console.log({running: true}); });
+```
+
 
 
 

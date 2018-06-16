@@ -30,7 +30,8 @@ import {
 import * as loaders from './src/loaders';
 
 
-const LevelEnum = new GraphQLObjectType({
+// const LevelEnum = new GraphQLObjectType({
+const LevelEnum = new GraphQLEnumType({
   name: 'PrivacyLevel', 
   values: {
     PUBLIC: {
@@ -177,6 +178,8 @@ const RootMutation = new GraphQLObjectType({
       }, 
       //?
       resolve(source, args) {
+        //we have a middleware to for authentication; hence, 
+        //we already have access to the user_id that's making the post
         console.log('\ninside root mutation and args = id & value\n');
         inMemoryStore[args.key] = args.value;
         //we return a string in order to coperate with type: GraphQLString

@@ -29,6 +29,7 @@
 |Enzyme|
 |Redux|
 |Enzyme|
+|Webpack|
 |Python|
 |Django|
 |Django REST|

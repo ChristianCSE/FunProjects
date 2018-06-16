@@ -2,7 +2,43 @@
 import * as database from './database';
 import * as tables from './tables';
 
+//Still unsure what this is actually doing
+import DataLoader from 'dataloader';
 
+const createNodeLoader = (table) => {
+  //what is dataloader actually doing
+  //so we invoke createNodeLoader and set the table name 
+  //we return a function which will want an array (or single?) of ids
+  return new DataLoader((ids) => {
+    //select * from table where table.id in (ids);
+    const query = table
+    .select(table.star())
+    .where(table.id.in(ids))
+    .toQuery(); 
+
+    return database.getSql(query)
+    .then((rows)=>{
+      //? either add new attribute table name or overwrite tableName
+      rows.forEach((row)=>{
+        row.__tableName = table.getName(); 
+      });
+      return rows; 
+    });
+  });
+};
+
+//more dataloader
+const nodeLoaders = {
+  users: createNodeLoader(tables.users), 
+  posts: createNodeLoader(tables.posts),
+  usersFriends: createNodeLoader(tables.usersFriends)
+}
+
+export const getNodeById = (nodeId) => {
+  const { tableName, dbId } = tables.splitNodeId(nodeId);
+  return nodeLoaders[tableName].load(dbId);
+}
+/*
 export const getNodeById = (nodeId) => {
   //splits id on their tableName:ID (format is due to needing GLOBALLY UNIQUE KEY)
   const { tableName, dbId } = tables.splitNodeId(nodeId);
@@ -26,6 +62,7 @@ export const getNodeById = (nodeId) => {
     return rows[0];
   })
 }
+*/
 
 //want getFriendIdsForUser
 //had getFriendsForUser
@@ -205,3 +242,20 @@ export const getPostIdsForUser = (userSource, args, context) => {
     return { rows, pageInfo };
   }
 )};
+
+
+//this is used by a mutation
+export const createPost = (body, level, context) => {
+  const { dbId } = tables.splitNodeId(context);
+  const created_at = new Date().toISOString().split('T')[0];
+  const posts = [{ body, level, created_at, user_id: dbId}];
+
+  let query = tables.posts.insert(posts).toQuery();
+  return database.getSql(query)
+  .then(()=>{
+    let text = 'SELECT last_insert_rowid() AS id FROM posts';
+    return database.getSql({text});
+  }).then((ids) => {
+    return tables.dbIdToNodeId(ids[0].id, tables.posts.getName());
+  });
+}

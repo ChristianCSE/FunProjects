@@ -14,7 +14,10 @@ import {
 //REMEMBER that * is usally bad practice to use!
 import * as tables from './tables';
 import * as loaders from './loaders';
-import { promises } from 'fs';
+//import { promises } from 'fs';
+import {
+  connectionDefinitions
+} from 'graphql-relay';
 
 export const NodeInterface = new GraphQLInterfaceType({
   name: 'Node', 
@@ -92,7 +95,7 @@ export const UserType = new GraphQLObjectType({
         },
         //NOTE: ALL resolve functions have access to "context" regardless of their depth
         resolve(source, args, context) {
-          console.log('\n You invoked something like ... on User \n');
+          console.log('\n You invoked something like ... on User ?\n');
           return loaders.getPostIdsForUser(source, args, context)
           .then(({ rows, pageInfo}) => {
             console.log('UserType, response back: ', { rows, pageInfo });
@@ -130,7 +133,7 @@ export const UserType = new GraphQLObjectType({
   } //fields!
 })
   //fields can be a funtion or just straight object defined!
-  /**
+/**
   fields: {
     id: {
       type: new GraphQLNonNull(GraphQLID),
@@ -178,8 +181,11 @@ export const UserType = new GraphQLObjectType({
   */
 
 
+
+
 //NOTE: While there aren't any resolve fxn in some of 
 // these attributes, don't think you should avoid them all together
+
 
 export const PostType = new GraphQLObjectType({
   name: 'Post', 
@@ -198,7 +204,9 @@ export const PostType = new GraphQLObjectType({
   }
 });
 
-//
+
+//Apparently the below are connection types? 
+/**
 const PageInfoType = new GraphQLObjectType({
   name: 'PageInfo', 
   fields: {
@@ -242,3 +250,10 @@ const PostsConnectionType = new GraphQLObjectType({
     }
   }
 });
+*/
+
+//this generates all the previously hand crafted types: PageInfo, PostEdge, PostConnection
+//this is due to using graphql-relay
+//GraphQL-Relay can also simplify how node types are structured & working with Relay-compatible mutations. 
+//Also, it imposes rules on how mutations work, similar to way certain types of args required for connections
+const { connectionType: PostsConnectionType } = connectionDefinitions({ nodeType: PostType });
