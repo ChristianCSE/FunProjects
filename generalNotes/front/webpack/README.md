@@ -12,3 +12,9 @@ non-JS files.
 ## Overview 
 Core Concepts: Entry, Output, Loaders, Plugins 
 
+## Using 
+It's better to install local rather than globally due to 
+per-project updating 
+```bash
+yarn add webpack webpack-cli -D
+```
