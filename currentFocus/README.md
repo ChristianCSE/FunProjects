@@ -30,6 +30,7 @@
 |Redux|
 |Enzyme|
 |Webpack|
+|Typescript|
 |Python|
 |Django|
 |Django REST|
