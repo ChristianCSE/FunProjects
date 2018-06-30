@@ -1,11 +1,13 @@
 'use strict';
 
-import require from 'express';
+// import require from 'express';
+import * as express from 'express';
 const Router = express.Router();
-const artistController = require('../../controllers/artist');
+//DNE yet (need to know what this will be doing)
+import { getNames, getArtist } from '../../controllers/artist';
 
 
-Router.get('/', artistController.getNames);
-Router.get('/:name', artistController.getArtist);
+Router.get('/', getNames);
+Router.get('/:name', getArtist);
 
-module.exports = Router;
+export default Router;

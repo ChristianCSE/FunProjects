@@ -1,8 +1,5 @@
-
-
 import { getSQL } from './index.js';
 import * as Promise from 'bluebird';
-
 
 const cleanUsers = (table, limit) => {
   const query = 'SELECT * FROM ?? LIMIT ?';
@@ -53,6 +50,14 @@ const getMult = () => {
     console.error('ERROR getMult: ', err);
   })
 }
+
+
+const helper = {
+  extractor: {}
+};
+
+
+
 
 // getMult();
 // cleanUsers('user', 10);

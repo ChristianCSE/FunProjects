@@ -30,7 +30,9 @@ const controllerHandler = (promise, params) => async (req, res, next) => {
   return res.status(500) && next(error);
  }
 };
-
+//controllerHandler returns a function that's filled promise & params
+//inside controllerHandler and router.get() sends :username to the returned function 
+//of controllerHandler 
 router.get('/users/:username', 
  controllerHandler(getUser, helper.methods.extractUsername)
 );

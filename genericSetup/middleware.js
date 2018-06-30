@@ -1,8 +1,8 @@
 'use strict';
 
 import express from 'express';
-const bodyParser = require('body-parser');
-const myRouter = require('./routes/router.js');
+import * as bodyParser from 'body-parser';
+const myRouter = require('./src/routes');
 
 
 const app = express(); 

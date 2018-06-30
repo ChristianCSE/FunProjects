@@ -1,6 +1,6 @@
 
-import express from 'express';
+import * as express from 'express';
 const Router = express.Router();
 
-router.use('/artists', require('./artists'));
-router.use('/albums', require('./albums'));
+Router.use('/artists', require('./artist'));
+Router.use('/albums', require('./album'));
