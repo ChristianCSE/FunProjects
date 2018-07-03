@@ -17,6 +17,10 @@ const cleanUsers = (table, limit) => {
 const getUsr = () => {
   return getSQL('SELECT * FROM user LIMIT 10')
   .then((row) => {
+    console.log(row.length);
+    for(let i = 0; i < row.length; i++){
+      console.log( row[i]);
+    }
     console.log(row);
     return row;
   })
@@ -25,6 +29,7 @@ const getUsr = () => {
   })
 }
 
+getUsr();
 
 const getMult = () => {
   let users = getSQL('SELECT * FROM `user` LIMIT 10');
@@ -57,6 +62,47 @@ const helper = {
 };
 
 
+helper.extractor.name = (req, res, next) => [req.user.username];
+
+const controllerHandler = (promiseGet, params) => {
+  return async (req, res, next) => {
+    const boundParams = params ? params(req) : [];
+    try {
+      const result = await promiseGet(...boundParams); //spread (since you are returned an array)
+      console.log('result: ', result);
+      return result;
+      //return res.json(result || { message: 'OK'});
+    } catch(error) {
+      console.error('ERROR: ', error);
+      return error;
+      //return res.status(500); // && next(error);
+    }
+  }
+}
+
+const likeMe = (name) => {
+  let myQuery = `
+    SELECT count(*) FROM 
+    user 
+    where name = ?
+  `;
+  return getSQL(myQuery, [name])
+  .then((likeMeCount) => {
+    console.log('is this still casted as a Promise:');
+    return likeMeCount;
+  })
+  .catch((err) => {
+    throw Error('Generic fetch error', err);
+  })
+}
+
+const basicPerson = {
+  user: {
+    username: 'Bob'
+  }
+};
+
+//controllerHandler(likeMe, helper.extractor.name)(basicPerson);
 
 
 // getMult();

@@ -9,34 +9,6 @@ const DB_CONFIG = {
 
 const pool = mysql.createPool(DB_CONFIG); 
 
-
-const connection = {
-  query: function() {
-    
-    let queryArgs = Array.prototype.slice.call(arguments), 
-      events = [], 
-      eventNameIndex = {}; 
-      
-    pool.getConnection((err, conn) =>{
-      if(err && eventNameIndex.error) eventNameIndex.error();
-      if(conn) {
-        let q = conn.query.apply(conn, queryArgs);
-        q.on('end', () => { conn.release(); });
-        events.forEach((args) => { q.on.apply(q, args); });
-      }
-    });
-
-    return {
-      on : function(eventName, callback) {
-        events.push(Array.prototype.slice.call(arguments)); 
-        eventNameIndex[eventName] = callback; 
-        return this;
-      }
-    }
-  }
-}
-
-
 const getSQL = (query, arr) => {
   return new Promise((res, rej) => {
     pool.getConnection((err, conn) => {
@@ -53,7 +25,32 @@ const getSQL = (query, arr) => {
 }
 
 module.exports = {
-  connection,
   pool, 
   getSQL
 }
+
+// const connection = {
+//   query: function() {
+    
+//     let queryArgs = Array.prototype.slice.call(arguments), 
+//       events = [], 
+//       eventNameIndex = {}; 
+      
+//     pool.getConnection((err, conn) =>{
+//       if(err && eventNameIndex.error) eventNameIndex.error();
+//       if(conn) {
+//         let q = conn.query.apply(conn, queryArgs);
+//         q.on('end', () => { conn.release(); });
+//         events.forEach((args) => { q.on.apply(q, args); });
+//       }
+//     });
+
+//     return {
+//       on : function(eventName, callback) {
+//         events.push(Array.prototype.slice.call(arguments)); 
+//         eventNameIndex[eventName] = callback; 
+//         return this;
+//       }
+//     }
+//   }
+// }
