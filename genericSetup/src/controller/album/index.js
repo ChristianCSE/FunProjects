@@ -1,5 +1,5 @@
 'use strict';
-import { getSQL } from './../database/mysql/';
+import { getSQL } from './../../database/mysql';
 import { artistController } from '../artist/';
 
 const albumController = {};
@@ -15,8 +15,9 @@ albumController.getByArtist = (artistName) => {
   return artistController.getArtist(artistName)
   .then(artist => {
     //multiple artist may have the same name
-    const getBySingleArtist = 'SELCT * FROM album where artist_id=?';
-    artist = artist.map((row) => getSQL(getBySingleArtist, row.artist_id));
+    const getBySingleArtist = 'SELECT * FROM album where artist_id=?';
+    console.log(artist);
+    artist = artist.map((row) => getSQL(getBySingleArtist, row.id));
     console.log(artist);
     return Promise.all(artist);
   }).catch(err => {

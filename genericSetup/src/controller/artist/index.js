@@ -1,5 +1,5 @@
 'use strict';
-import { getSQL } from './../database/mysql/index.js';
+import { getSQL } from './../../database/mysql';
 
 const artistController = {};
 
@@ -11,7 +11,7 @@ artistController.getAll = () => {
 }
 
 artistController.getArtist = (name) => {
-  const artistQ = 'SELCT * FROM artist where name = ?';
+  const artistQ = "SELECT * FROM artist where name = ?";
   return getSQL(artistQ, name);
 }
 

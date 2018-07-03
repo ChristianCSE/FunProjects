@@ -11,7 +11,7 @@ const DB_CONFIG = {
   host: 'localhost', 
   user: 'root', 
   password: process.env.DBPASSWORD, 
-  database: 'yelp'
+  database: 'music'
 };
 
 // const db = Promise.promisifyAll(mysql.createConnection(DB_CONFIG));

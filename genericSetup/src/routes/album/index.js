@@ -2,22 +2,26 @@
 
 //album
 import * as express from 'express';
-import { albumController } from '../../controller/album/index';
+import { albumController } from '../../controller/album';
 const Router = express.Router();
 
-const jsonWrapper = (row) => Promise.resolve(res.json(row));
+
 
 Router.get('/all', (req, res, next) => {
+  console.log('wtf');
   return albumController.getAll()
-  .then(jsonWrapper);
+  .then(row => Promise.resolve(res.json(row)));
 });
 
 
-Router.get('/album/artist/:artist', (req, res, next) => {
-  return albumController.getByArtist(req.param)
-  .then(jsonWrapper);
+Router.get('/artist/:artist', (req, res, next) => {
+  return albumController.getByArtist(req.params.artist)
+  .then(row => Promise.resolve(res.json(row)));
 })
 
-Router.get('/*', ()=>{
+Router.get('/*', (req, res, next)=>{
+  console.log('req', req.params);
   return res.json({'Error': 'Path DNE'});
 })
+
+module.exports = Router;
