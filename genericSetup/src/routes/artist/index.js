@@ -2,25 +2,22 @@
 
 // import require from 'express';
 import * as express from 'express';
-import { fetchUsers } from '../../dumbGetters/peeps';
+import { artistController } from '../../controller/artist';
 const Router = express.Router();
-//DNE yet (need to know what this will be doing)
-//import { getNames, getArtist } from '../../controllers/artist';
 
 
-//middleware related to a particular route should be here
-
-const getArtist = (req, res, next) => {
-  return res.send('<h1>bye</h1>');
-}
 
 
 Router.get('/', (req, res, next) => {
-  return fetchUsers()
-  .then(row => res.json(row));
+  return artistController.getAll()
+  .then(row => Promise.resolve(res.json(row)));
 });
 
-Router.get('/:name', getArtist);
+Router.get('/:artist', (req, res, next) => {
+  const artistName = res.params.artist;
+  return artistController.getByArtist(artistName)
+  .then(row => res.json(row));
+});
 
 
 module.exports = Router;

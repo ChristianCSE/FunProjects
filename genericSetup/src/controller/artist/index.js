@@ -5,9 +5,8 @@ const artistController = {};
 
 
 artistController.getAll = () => {
-  // const allQ = 'SELECT * from album';
-  // return getSQL(allQ);
-  return null;
+  const allQ = "SELECT * FROM artist";
+  return getSQL(allQ);
 }
 
 artistController.getArtist = (name) => {

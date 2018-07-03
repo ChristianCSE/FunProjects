@@ -11,23 +11,17 @@ albumController.getAll = () => {
 }
 
 albumController.getByArtist = (artistName) => {
-  //get artist
   return artistController.getArtist(artistName)
   .then(artist => {
     //multiple artist may have the same name
     const getBySingleArtist = 'SELECT * FROM album where artist_id=?';
-    console.log(artist);
     artist = artist.map((row) => getSQL(getBySingleArtist, row.id));
-    console.log(artist);
     return Promise.all(artist);
   }).catch(err => {
     console.log('albumCx.getByArtist: ', err);
     throw Error('albumCx.getByArtist: ', err);
   })
 }
-
-
-
 
 module.exports = {
   albumController
