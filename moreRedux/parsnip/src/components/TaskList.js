@@ -12,7 +12,15 @@ const TaskList = (props) => {
       {
         props.tasks.map((task)=>{
           //passing our props
-          return(<Task key={task.id} task={task} />)
+          return(
+            <Task 
+              key={task.id} 
+              task={task} 
+              //NOTE: Remember that this is a presentational comp 
+              //;hence, no concept of this!
+              onStatusChange={props.onStatusChange}
+            />
+          )
         })
       }
     </div>
