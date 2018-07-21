@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Learn Redux",
+      "description": "Store, actions, reducers",
+      "status": "Unstarted"
+    }, 
+    {
+      "id": 2,
+      "title": "Peace",
+      "description": "No big deal.",
+      "status": "Unstarted"
+    }, 
+    {
+      "id": 3,
+      "title": "Create FB for dogs",
+      "description": "Best social network",
+      "status": "Completed"
+    }
+  ]
+}
