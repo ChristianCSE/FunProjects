@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 
 import TasksPage from './components/TasksPage';
-import { createTask, editTask } from './actions';
+import { createTask, editTask, fetchTasks } from './actions';
 
 //<TasksPage tasks={mockTasks} /> 
 /* 
@@ -14,6 +14,11 @@ Store provides only one way to update state!
 to your container component 
 */
 class App extends React.Component {
+
+  //initiating our state
+  componentDidMount() {
+    this.props.dispatch(fetchTasks());
+  }
 
   onCreateTask = ({title, description }) => {
     //we have access to this.props.dispatch due to 

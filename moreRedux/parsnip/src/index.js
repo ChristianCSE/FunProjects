@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+//middleware required to be allowed to dispatch functions 
+//rather than just action objects
 import thunk from 'redux-thunk';
 
 //import { devToolsEnhancer } from 'redux-devtools-extension';
