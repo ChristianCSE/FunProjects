@@ -12,4 +12,8 @@ const client = axios.create({
 //NOTE: this will return a Promise 
 export const fetchTasks = () => client.get('/tasks');
 
-export const createTasks = (params) => client.post('/tasks', params);
+export const createTask = (params) => client.post('/tasks', params);
+
+//NOTE: Using axios directly for our PUT request
+export const editTask = (id, params) => axios.put(`${API_BASE_URL}/task/${id}`, params);
+

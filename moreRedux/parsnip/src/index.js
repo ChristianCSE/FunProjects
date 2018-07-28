@@ -10,16 +10,35 @@ import thunk from 'redux-thunk';
 //import { devToolsEnhancer } from 'redux-devtools-extension';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import tasks from './reducers';
+//import tasks from './reducers';
+import tasksReducer from './reducers';
+
 import App from './App';
 
 import './index.css';
 
+
+// Making a ROOTREDUCER in order direct RELEVANT DATA to particular reducers
+//NOTE: we accept the current OVERALL STATE, 
+//and are sending a sub-state to a particular reducer
+const rootReducer = (state = {}, action) => {
+  return {
+    tasks: tasksReducer(state.tasks, action), 
+    //projects: projectReducer(state.projects, action)
+  };
+};
+//the functionality we just did above is what 
+//combineReducers 
+//from redux does
+
 //const store = createStore(tasks, devToolsEnhancer());
 const store = createStore(
-  tasks,
+  //tasks,
+  rootReducer,
   composeWithDevTools( applyMiddleware(thunk) )
 );
+
+
 
 const wrapProvider = (
   <Provider store={store}>

@@ -1,5 +1,11 @@
 
-import { CREATE_TASK, EDIT_TASK, FETCH_TASKS_SUCCEEDED } from '../constants';
+import { 
+  CREATE_TASK, 
+  EDIT_TASK, 
+  FETCH_TASKS_SUCCEEDED, 
+  CREATE_TASK_SUCCEEDED,
+  EDIT_TASK_SUCCEEDED,
+  FETCH_TASKS_STARTED } from '../constants';
 import * as api from '../api';
 let _id = 1;
 
@@ -20,13 +26,35 @@ const actionCreateTask = (id, title, description, status) => {
   };
 }
 
-//this is our action creator 
-export const createTask = ({ title, description}) => {
-//export function createTask({title, description}){
-  //you could just make it here rather than having a function that 
-  //makes the action object
-  return actionCreateTask(uniqueId(), title, description, 'Unstarted');
+//sync Action Creator
+const createTaskSucceeded = (task) => {
+  return {
+    type: CREATE_TASK_SUCCEEDED,
+    payload: {
+      task
+    }
+  };
 };
+
+
+//this is our action creator 
+// export const createTask = ({ title, description}) => {
+// //export function createTask({title, description}){
+//   //you could just make it here rather than having a function that 
+//   //makes the action object
+//   return actionCreateTask(uniqueId(), title, description, 'Unstarted');
+// };
+
+//async Action creator
+export const createTask = ({title, description, status='Unstarted'}) => {
+  return dispatch => {
+    //async part
+    api.createTask({title, description, status}).then((resp) => {
+      //sync part
+      dispatch(createTaskSucceeded(resp.data));
+    })
+  }
+}
 
 
 
@@ -42,9 +70,9 @@ const actionEditTask = (id, params) => {
   };
 };
 
-export const editTask = (id, params={}) => {
-  return actionEditTask(id, params);
-};
+// export const editTask = (id, params={}) => {
+//   return actionEditTask(id, params);
+// };
 
 
 export const fetchTasksSucceeded = (tasks) => {
@@ -69,12 +97,63 @@ export const fetchTasksSucceeded = (tasks) => {
 // };
 
 
-export const fetchTasks = () => {
-  return dispatch => {
-    return api.fetchTasks().then((resp) => {
-      dispatch(fetchTasksSucceeded(resp.data));
+//UPDATED in order to show loading animation 
+// export const fetchTasks = () => {
+//   return dispatch => {
+//     return api.fetchTasks().then((resp) => {
+//       dispatch(fetchTasksSucceeded(resp.data));
+//     });
+//   }
+// };
+
+//this is our action!
+const editTasksSucceeded = (task) => {
+  return {
+    type: EDIT_TASK_SUCCEEDED, 
+    payload: {
+      task
+    }
+  };
+};
+
+//tasks = array
+const getTaskById = (tasks, id) => tasks.find(task => task.id === id);
+
+
+export const editTask = (id, params={}) => {
+  //redux thunk allows us to send functions to the ... store? 
+  return (dispatch, getState) => {
+    // get specific task (sub-state) wrt id
+    const task = getTaskById(getState().tasks.tasks, id); 
+    // IMMUTABILITY needs to be maintained
+    const updatedTask = Object.assign({}, task, params);
+    // invoke API (then dispatch action )
+    api.editTask(id, updatedTask)
+    .then((resp) => {
+      dispatch(editTasksSucceeded(resp.data));
     });
   }
 };
 
-//console.log(createTask({title: 'nothing', description: 'something'}));
+
+const fetchTasksStarted = () => {
+  return {
+    type: FETCH_TASKS_STARTED
+  };
+};
+
+
+//NOTE: that pattern of this action creator 
+//2 actions are made 
+export const fetchTasks = () => {
+  return (dispatch) => {
+    dispatch(fetchTasksStarted());
+    api.fetchTasks()
+    .then((resp) => {
+      //we set a 2 second wait 
+      setTimeout(()=>{
+        dispatch(fetchTasksSucceeded(resp.data));
+      }, 2000);
+    });
+  }
+}
