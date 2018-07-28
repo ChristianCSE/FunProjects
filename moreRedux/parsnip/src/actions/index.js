@@ -124,14 +124,19 @@ const getTaskById = (tasks, id) => tasks.find(task => task.id === id);
 export const editTask = (id, params={}) => {
   //redux thunk allows us to send functions to the ... store? 
   return (dispatch, getState) => {
+    console.log('editTask: ', getState());
     // get specific task (sub-state) wrt id
     const task = getTaskById(getState().tasks.tasks, id); 
+    console.log('task: ', task);
     // IMMUTABILITY needs to be maintained
     const updatedTask = Object.assign({}, task, params);
     // invoke API (then dispatch action )
     api.editTask(id, updatedTask)
     .then((resp) => {
+      console.log('editTask returning from api: ', resp);
       dispatch(editTasksSucceeded(resp.data));
+    }).catch(err => {
+      console.error('err: ', err);
     });
   }
 };

@@ -15,5 +15,6 @@ export const fetchTasks = () => client.get('/tasks');
 export const createTask = (params) => client.post('/tasks', params);
 
 //NOTE: Using axios directly for our PUT request
-export const editTask = (id, params) => axios.put(`${API_BASE_URL}/task/${id}`, params);
+//Previously had error with api name! (was giving a 404 error)
+export const editTask = (id, params) => axios.put(`${API_BASE_URL}/tasks/${id}`, params);
 

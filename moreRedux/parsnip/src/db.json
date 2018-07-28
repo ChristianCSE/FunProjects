@@ -10,18 +10,18 @@
       "id": 2,
       "title": "Peace",
       "description": "No big deal.",
-      "status": "Unstarted"
+      "status": "Completed"
     },
     {
       "id": 3,
       "title": "Create FB for dogs",
       "description": "Best social network",
-      "status": "Completed"
+      "status": "In Progress"
     },
     {
       "title": "sad",
       "description": "dsa",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 4
     }
   ]

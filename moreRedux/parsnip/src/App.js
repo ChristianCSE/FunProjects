@@ -34,7 +34,7 @@ class App extends React.Component {
     //rather than through some redux API method 
     this.props.dispatch(editTask(id, { status }));
   }
-
+  
   render(){
     //this should our init state 
     //AND 
