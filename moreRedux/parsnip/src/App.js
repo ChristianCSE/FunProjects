@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 
 import TasksPage from './components/TasksPage';
+import FlashMessage from './components/FlashMessage';
 import { createTask, editTask, fetchTasks } from './actions';
 
 //<TasksPage tasks={mockTasks} /> 
@@ -43,7 +44,7 @@ class App extends React.Component {
       //NOTE: the error is rendered within our normal component, 
       //this is in contrast with an if else where only the error would appear 
       <div className="container">
-        { this.props.error && <FlasMessage message={this.props.error} /> }
+        { this.props.error && <FlashMessage message={this.props.error} /> }
         <div className="main-content">
           <TasksPage 
             tasks={this.props.tasks} 

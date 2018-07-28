@@ -15,3 +15,5 @@ export const FlashMesssage = (props) => {
 Error.defaultProps = {
   message: 'An error occured'
 };
+
+export default FlashMesssage;

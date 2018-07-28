@@ -23,7 +23,8 @@ import {
   FETCH_TASKS_SUCCEEDED, 
   CREATE_TASK_SUCCEEDED, 
   EDIT_TASK_SUCCEEDED,
-  FETCH_TASKS_STARTED } from '../constants';
+  FETCH_TASKS_STARTED, 
+  FETCH_TASKS_FAILED } from '../constants';
 
 //once integrated with Redux, state is retrieved via store which 
 //calls getState(), action is from our action creator getting dispatched 
@@ -33,7 +34,8 @@ import {
 //DEFINING init state (current use: isLoading is false )
 const initialState = {
   tasks: [], 
-  isLoading: false
+  isLoading: false, 
+  error: null
 };
 
 //export default function tasks(state = {tasks: []}, action){
@@ -98,11 +100,20 @@ export default function tasks(state = initialState, action){
       };
     }
     //trigger our loading animation (due to the change in state => re-render)
-    case FETCH_TASKS_STARTED : {
+    case FETCH_TASKS_STARTED: {
       return {
         ...state, 
         isLoading: true
       };
+    }
+    case FETCH_TASKS_FAILED: {
+      //NOTE: this change in state comes after another change of state
+      //that is why we set isLoading to false, our request ended in an error
+      return {
+        ...state, 
+        isLoading: false, 
+        error: action.payload.error
+      }
     }
     default: {
       return state;
