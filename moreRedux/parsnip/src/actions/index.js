@@ -5,7 +5,8 @@ import {
   FETCH_TASKS_SUCCEEDED, 
   CREATE_TASK_SUCCEEDED,
   EDIT_TASK_SUCCEEDED,
-  FETCH_TASKS_STARTED } from '../constants';
+  FETCH_TASKS_STARTED,
+  FETCH_TASKS_FAILED } from '../constants';
 import * as api from '../api';
 let _id = 1;
 
@@ -150,10 +151,31 @@ export const fetchTasks = () => {
     dispatch(fetchTasksStarted());
     api.fetchTasks()
     .then((resp) => {
-      //we set a 2 second wait 
-      setTimeout(()=>{
-        dispatch(fetchTasksSucceeded(resp.data));
-      }, 2000);
+      
+      // //we set a 2 second wait 
+      // setTimeout(()=>{
+      //   dispatch(fetchTasksSucceeded(resp.data));
+      // }, 2000);
+      
+      //ATM we are forcing an error
+      throw new Error('Oh noes! Unable to fetch tasks!');
+
+
+    }).catch((err) => {
+      dispatch(fetchTasksFailed(err.message));
     });
   }
-}
+};
+
+
+//We are creating an Error action 
+const fetchTasksFailed = (error) => {
+  return {
+    type: FETCH_TASKS_FAILED, 
+    payload: {
+      error
+    }
+  };
+};
+
+

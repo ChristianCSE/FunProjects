@@ -39,14 +39,23 @@ class App extends React.Component {
     //AND 
     //dispatch prop 
     return(
-      <div className="main-content">
-        <TasksPage 
-          tasks={this.props.tasks} 
-          onCreateTask={this.onCreateTask}
-          //NOTE: This is just using React to send the onStatusChange method
-          //to our child compoennt!
-          onStatusChange={this.onStatusChange}
-        />
+      //NOTE: placed an error message! 
+      //NOTE: the error is rendered within our normal component, 
+      //this is in contrast with an if else where only the error would appear 
+      <div className="container">
+        { this.props.error && <FlasMessage message={this.props.error} /> }
+        <div className="main-content">
+          <TasksPage 
+            tasks={this.props.tasks} 
+            onCreateTask={this.onCreateTask}
+            //NOTE: This is just using React to send the onStatusChange method
+            //to our child compoennt!
+            onStatusChange={this.onStatusChange}
+            //NOTE: this property from our state (in the store) will trigger a loading animation 
+            //we use this.props.x since we are retrieving it from mapStateToProps
+            isLoading = {this.props.isLoading}
+          />
+        </div>
       </div>
     );
   }
@@ -56,7 +65,8 @@ class App extends React.Component {
 //this is simply mapping the Store (state) into 
 //Props for Component prop consumption
 const mapStateToProps = (state) => {
-  return { tasks: state.tasks };
+  const { tasks, isLoading, error } = state.tasks; 
+  return { tasks, isLoading, error };
 };
 //due to this, we now refer to our state as this.props.tasks
 

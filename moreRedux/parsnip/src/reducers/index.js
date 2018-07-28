@@ -22,7 +22,8 @@ import {
   EDIT_TASK, 
   FETCH_TASKS_SUCCEEDED, 
   CREATE_TASK_SUCCEEDED, 
-  EDIT_TASK_SUCCEEDED } from '../constants';
+  EDIT_TASK_SUCCEEDED,
+  FETCH_TASKS_STARTED } from '../constants';
 
 //once integrated with Redux, state is retrieved via store which 
 //calls getState(), action is from our action creator getting dispatched 
@@ -82,6 +83,8 @@ export default function tasks(state = initialState, action){
     }
     //NOTE: this is different from the EDIT_TASK action 
     case EDIT_TASK_SUCCEEDED: {
+      console.log(EDIT_TASK_SUCCEEDED);
+      console.log('should be changing placement');
       const { payload } = action; 
       // return {
       //   // remember that Objects must be kept IMMUTABLE! 
@@ -92,6 +95,13 @@ export default function tasks(state = initialState, action){
       return {
         ...state, 
         tasks: newTasks
+      };
+    }
+    //trigger our loading animation (due to the change in state => re-render)
+    case FETCH_TASKS_STARTED : {
+      return {
+        ...state, 
+        isLoading: true
       };
     }
     default: {

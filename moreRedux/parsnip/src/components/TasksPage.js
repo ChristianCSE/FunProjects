@@ -77,6 +77,15 @@ class TasksPage extends React.Component {
   }
 
   render() {
+    //for our loading animation we use an if statement 
+    //NOTE: remember when our state property is updated to false this will re-render
+    if (this.props.isLoading) {
+      return (
+        <div className="tasks-loading">
+          Loading ...
+        </div>
+      );
+    }
     return (
       <div className="task-list">
         
