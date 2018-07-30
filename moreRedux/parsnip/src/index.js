@@ -18,7 +18,7 @@ import App from './App';
 //our customized middleware 
 import logger from './middleware/logger';
 import analytics from './middleware/analytics';
-
+import apiMiddlware from './middleware/api';
 
 import './index.css';
 
@@ -40,7 +40,10 @@ const rootReducer = (state = {}, action) => {
 const store = createStore(
   //tasks,
   rootReducer,
-  composeWithDevTools( applyMiddleware(thunk, logger, analytics) )
+  //NOTE: Order of applying middleware DOES MATTER!
+  composeWithDevTools( 
+    applyMiddleware(thunk, apiMiddlware, logger, analytics) 
+  )
 );
 
 

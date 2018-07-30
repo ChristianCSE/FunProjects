@@ -10,7 +10,7 @@
       "id": 2,
       "title": "Peace",
       "description": "No big deal.",
-      "status": "Completed"
+      "status": "In Progress"
     },
     {
       "id": 3,
@@ -27,7 +27,7 @@
     {
       "title": "Something",
       "description": "Just doing something else",
-      "status": "In Progress",
+      "status": "Completed",
       "id": 5
     },
     {
@@ -45,7 +45,7 @@
     {
       "title": "I cannot spell shit",
       "description": "Yep",
-      "status": "In Progress",
+      "status": "Unstarted",
       "id": 8
     },
     {
@@ -57,7 +57,7 @@
     {
       "title": "Learn 2 spell",
       "description": "now",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 10
     }
   ]

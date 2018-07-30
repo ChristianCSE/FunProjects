@@ -40,6 +40,7 @@ const initialState = {
 
 //export default function tasks(state = {tasks: []}, action){
 export default function tasks(state = initialState, action){
+  //console.log('fetching ... : ', action);
   switch(action.type) {
     case CREATE_TASK: {
       return {
@@ -70,8 +71,10 @@ export default function tasks(state = initialState, action){
       //using the spread operator in this manner is similar to using Object.assign
       return {
         ...state, 
-        isLoading: false, 
-        tasks: action.payload.tasks
+        //cannot use below due to our middleware api.js
+        //tasks: action.payload.tasks //this was more descriptive 
+        tasks: action.payload,
+        isLoading: false
       };
     }
     case CREATE_TASK_SUCCEEDED: {
@@ -80,7 +83,8 @@ export default function tasks(state = initialState, action){
       // }
       return {
         ...state, 
-        tasks: state.tasks.concat(action.payload.task)
+        //tasks: state.tasks.concat(action.payload.task)
+        tasks: state.tasks.concat(action.payload)
       }
     }
     //NOTE: this is different from the EDIT_TASK action 
