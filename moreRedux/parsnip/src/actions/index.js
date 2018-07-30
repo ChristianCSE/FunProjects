@@ -34,6 +34,15 @@ const createTaskSucceeded = (task) => {
     payload: {
       task
     }
+    //adding meta property for analytics (used in our middleware)
+    , meta: {
+      analytics: {
+        event: 'create_task', 
+        data: {
+          id: task.id
+        }
+      }
+    }
   };
 };
 
@@ -153,16 +162,12 @@ export const fetchTasks = () => {
     dispatch(fetchTasksStarted());
     api.fetchTasks()
     .then((resp) => {
-      
       // //we set a 2 second wait 
       setTimeout(()=>{
         dispatch(fetchTasksSucceeded(resp.data));
       }, 2000);
-      
       //ATM we are forcing an error
       // throw new Error('Oh noes! Unable to fetch tasks!');
-
-
     }).catch((err) => {
       dispatch(fetchTasksFailed(err.message));
     });

@@ -21,14 +21,44 @@
     {
       "title": "sad",
       "description": "dsa",
-      "status": "In Progress",
+      "status": "Completed",
       "id": 4
     },
     {
       "title": "Something",
       "description": "Just doing something else",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 5
+    },
+    {
+      "title": "Hello Maker",
+      "description": "Should use analytics to print something!",
+      "status": "Completed",
+      "id": 6
+    },
+    {
+      "title": "Anything?",
+      "description": "Yes...",
+      "status": "Unstarted",
+      "id": 7
+    },
+    {
+      "title": "I cannot spell shit",
+      "description": "Yep",
+      "status": "In Progress",
+      "id": 8
+    },
+    {
+      "title": "Learn how to spell ",
+      "description": "wtf",
+      "status": "Unstarted",
+      "id": 9
+    },
+    {
+      "title": "Learn 2 spell",
+      "description": "now",
+      "status": "Unstarted",
+      "id": 10
     }
   ]
 }

@@ -1,0 +1,1 @@
+cd src && json-server --watch db.json --port 3001
