@@ -158,12 +158,12 @@ export const fetchTasks = () => {
     .then((resp) => {
       
       // //we set a 2 second wait 
-      // setTimeout(()=>{
-      //   dispatch(fetchTasksSucceeded(resp.data));
-      // }, 2000);
+      setTimeout(()=>{
+        dispatch(fetchTasksSucceeded(resp.data));
+      }, 2000);
       
       //ATM we are forcing an error
-      throw new Error('Oh noes! Unable to fetch tasks!');
+      //throw new Error('Oh noes! Unable to fetch tasks!');
 
 
     }).catch((err) => {

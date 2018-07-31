@@ -60,7 +60,7 @@ class TasksPage extends React.Component {
   renderTasksLists = () => {
     const { tasks } = this.props;
     return TASK_STATUSES.map((status) => {
-      console.log('renderTasksLists: ',tasks);
+      //console.log('renderTasksLists: ',tasks);
       const statusTasks = tasks.filter(task => task.status === status);
 
       //all these passed properties get passed under props.NAME
