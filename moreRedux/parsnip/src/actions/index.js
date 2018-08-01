@@ -151,6 +151,8 @@ const fetchTasksStarted = () => {
 
 //NOTE: that pattern of this action creator 
 //2 actions are made 
+
+/*
 export const fetchTasks = () => {
   return (dispatch) => {
     dispatch(fetchTasksStarted());
@@ -161,17 +163,19 @@ export const fetchTasks = () => {
       setTimeout(()=>{
         dispatch(fetchTasksSucceeded(resp.data));
       }, 2000);
-      
       //ATM we are forcing an error
       //throw new Error('Oh noes! Unable to fetch tasks!');
-
-
     }).catch((err) => {
       dispatch(fetchTasksFailed(err.message));
     });
   }
 };
+*/
 
+//NOTE: This is now sufficient due to sagas
+export const fetchTasks = () => {
+  return { type: FETCH_TASKS_STARTED };
+}
 
 //We are creating an Error action 
 const fetchTasksFailed = (error) => {

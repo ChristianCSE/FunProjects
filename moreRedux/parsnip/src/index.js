@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+
+
 //middleware required to be allowed to dispatch functions 
 //rather than just action objects
 import thunk from 'redux-thunk';
+
+import rootSaga from './sagas';
 
 //import { devToolsEnhancer } from 'redux-devtools-extension';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -31,12 +36,16 @@ const rootReducer = (state = {}, action) => {
 //combineReducers 
 //from redux does
 
+const sagaMiddleware = createSagaMiddleware();
+
 //const store = createStore(tasks, devToolsEnhancer());
 const store = createStore(
   //tasks,
   rootReducer,
-  composeWithDevTools( applyMiddleware(thunk) )
+  composeWithDevTools( applyMiddleware(thunk, sagaMiddleware) )
 );
+
+sagaMiddleware.run(rootSaga); //init the saga with run() on sagaMiddleware
 
 
 
