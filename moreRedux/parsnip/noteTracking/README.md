@@ -97,3 +97,28 @@ return dispatch => {
 ## take()
 => `take()` can be config'd to accept & respond to more than one action type at a time. 
 => pass it an array of action type strings as the first arg. 
+
+
+
+# Selectors
+`def`: Fxns used to compute derived data from the Redux store. 
+`coupled`: If entity A relies on entity B to do its job, then A and B are coupled. 
+=> this alone IS NOT A BAD thing
+`tightly coupled`: If A is updated and you also have to make an update in B. 
+=> motivation to `decoupling` is to lessen the fear of a ripple effect when changin components. 
+=> Also flexibility. 
+`Selectors`: Fxns that accept a state from the Redux STORE and COMPUTE DATA that'll eventually be 
+passed as props to React. 
+=> They are pure fxns 
+=> Easy to memoize. 
+**without selectors**: Components would be COUPLED directly to the SHAPE OF REDUX STORE. 
+=> Store changes => update EVERY COMPONENT relying on that structure.
+`derived data`: Calculation or mutation of a Redux State for displaying the data in a React component. 
+
+
+# Selector & Redux
+=> With Redux you can complete the filtering before the component knows it has happened 
+=> **mapStateToProps()**: Provides the opportunity to derive data before making it available 
+to a connected component. Again, this bridges the fap b/w data in Redux & data in Components. 
+=> It is where selectors in general are applied. 
+=> IOW, `selectors` are invoked in `mapStateToProps` prior to providing data to view. 

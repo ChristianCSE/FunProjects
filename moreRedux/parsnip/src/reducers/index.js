@@ -25,7 +25,8 @@ import {
   EDIT_TASK_SUCCEEDED,
   FETCH_TASKS_STARTED, 
   FETCH_TASKS_FAILED, 
-  TIMER_STARTED } from '../constants';
+  TIMER_STARTED, 
+  FILTER_TASKS} from '../constants';
 
 //once integrated with Redux, state is retrieved via store which 
 //calls getState(), action is from our action creator getting dispatched 
@@ -36,7 +37,8 @@ import {
 const initialState = {
   tasks: [], 
   isLoading: false, 
-  error: null
+  error: null, 
+  searchTerm: ''
 };
 
 //export default function tasks(state = {tasks: []}, action){
@@ -123,6 +125,12 @@ export default function tasks(state = initialState, action){
       //NOTE: This is equivalent to Object.assign() -- this is done to conserve 
       //immutability
       return { ...state, tasks: nextTasks }; 
+    }
+    case FILTER_TASKS: {
+      return {
+        ...state, 
+        searchTerm: action.payload.searchTerm
+      };
     }
     default: {
       return state;

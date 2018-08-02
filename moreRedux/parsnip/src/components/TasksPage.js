@@ -3,6 +3,12 @@ import React from 'react';
 import TaskList from './TaskList';
 
 const TASK_STATUSES = ['Unstarted', 'In Progress', 'Completed'];
+/*
+Due to TasksPage not being a CONNECTED COMPONENT, DIPSATCHING an ACTION
+will have to TAKE PLACE in ITS PARENT COMPONENT. 
+=> Its parent must pass a callback for it to dispatch an action. 
+*/
+
 
 class TasksPage extends React.Component {
   
@@ -78,6 +84,12 @@ class TasksPage extends React.Component {
     });
   }
 
+  onSearch = (e) => {
+    //console.log('search term: ', e.target.value); 
+    //invoking callback that dispatches an action! 
+    this.props.onSearch(e.target.value);
+  }
+
   render() {
     //for our loading animation we use an if statement 
     //NOTE: remember when our state property is updated to false this will re-render
@@ -89,9 +101,14 @@ class TasksPage extends React.Component {
       );
     }
     return (
-      <div className="task-list">
+      <div className="tasks">
         
-        <div className="task-list-header">
+        <div className="tasks-header">
+          <input 
+            onChange={this.onSearch}
+            type="text"
+            placeholder="Search ..."
+          />
           <button 
             className="button button-default"
             onClick={this.toggleForm}
@@ -102,7 +119,7 @@ class TasksPage extends React.Component {
         {
           this.state.showNewCardForm && (
             // we need to DISPATCH an ACTION to add a new task
-            <form className="task-list-form" onSubmit={this.onCreateTask}>
+            <form className="new-task-form" onSubmit={this.onCreateTask}>
               
               <input 
                 className="full-width-input"

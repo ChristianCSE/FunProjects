@@ -8,7 +8,8 @@ import {
   FETCH_TASKS_STARTED,
   FETCH_TASKS_FAILED, 
   TIMER_STARTED, 
-  TIMER_STOPPED } from '../constants';
+  TIMER_STOPPED, 
+  FILTER_TASKS } from '../constants';
 import * as api from '../api';
 
 // let _id = 1;
@@ -232,3 +233,11 @@ const fetchTasksFailed = (error) => {
 };
 
 
+export const filterTasks = (searchTerm) => {
+  return {
+    type: FILTER_TASKS, 
+    payload: {
+      searchTerm
+    }
+  };
+};

@@ -10,6 +10,7 @@ export const FETCH_TASKS_STARTED = 'FETCH_TASKS_STARTED';
 export const FETCH_TASKS_FAILED = 'FETCH_TASKS_FAILED';
 export const TIMER_STARTED = 'TIMER_STARTED';
 export const TIMER_STOPPED = 'TIMER_STOPPED';
+export const FILTER_TASKS = 'FILTER_TASKS';
 
 
 // dev endpoint

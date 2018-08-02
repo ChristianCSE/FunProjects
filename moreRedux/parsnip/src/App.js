@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import TasksPage from './components/TasksPage';
 import FlashMessage from './components/FlashMessage';
-import { createTask, editTask, fetchTasks } from './actions';
+import { createTask, editTask, fetchTasks, filterTasks } from './actions';
 
 //<TasksPage tasks={mockTasks} /> 
 /* 
@@ -34,6 +34,12 @@ class App extends React.Component {
     //rather than through some redux API method 
     this.props.dispatch(editTask(id, { status }));
   }
+
+  //passing callback since the method that needs to call this method is 
+  //not connected to the store
+  onSearch = (searchTerm) => {
+    this.props.dispatch(filterTasks(searchTerm));
+  }
   
   render(){
     //this should our init state 
@@ -55,6 +61,8 @@ class App extends React.Component {
             //NOTE: this property from our state (in the store) will trigger a loading animation 
             //we use this.props.x since we are retrieving it from mapStateToProps
             isLoading = {this.props.isLoading}
+            //for filtering search and passing callback to child component 
+            onSearch={this.onSearch}
           />
         </div>
       </div>
@@ -62,11 +70,23 @@ class App extends React.Component {
   }
 };
 
+//A transform that bridges the gap b/w Redux & React 
 //Remember, our store contains our App's state 
 //this is simply mapping the Store (state) into 
 //Props for Component prop consumption
 const mapStateToProps = (state) => {
-  const { tasks, isLoading, error } = state.tasks; 
+  //for each key returned from Redux STORE make their data available to Components via Props
+  //const { tasks, isLoading, error } = state.tasks; 
+  const { isLoading, error, searchTerm } = state.tasks; 
+  
+  //doing the filtering here allows the components to be more generic and flexible 
+  const tasks = state.tasks.tasks.filter((task) => {
+    //case insentive flag = i
+    //filter only keeps the item iff returned true
+    //NOTE: input is not guarenteed to be clean (errors can occur)
+    return task.title.match(new RegExp(searchTerm, 'i'));
+  });
+
   return { tasks, isLoading, error };
 };
 //due to this, we now refer to our state as this.props.tasks

@@ -68,6 +68,10 @@ hr {
   font-size: 18px;
   margin-bottom: 20px;
   text-align: right;
+  /* adding flex ensures SEARCH input will appear on top-left 
+  & top-right of the page */
+  display: flex; 
+  justify-content: space-between; 
 }
 
 /* Task */
