@@ -79,7 +79,7 @@ const actionEditTask = (id, params) => {
 // };
 
 
-export const fetchTasksSucceeded = (tasks) => {
+export const fetchTasksSucceeded = (taskId) => {
   return {
     type: FETCH_TASKS_SUCCEEDED,
     payload: {
