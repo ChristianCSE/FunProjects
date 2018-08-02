@@ -57,6 +57,8 @@ class TasksPage extends React.Component {
     });
   }
 
+
+  //NOTE: We are rendering another component here!
   renderTasksLists = () => {
     const { tasks } = this.props;
     return TASK_STATUSES.map((status) => {
@@ -126,6 +128,7 @@ class TasksPage extends React.Component {
             </form>
           )
         }
+        {/* we are invoking a method to make our tasks components  */}
         <div className="task-lists">
           {this.renderTasksLists()}
         </div>

@@ -23,6 +23,7 @@ const Task = (props) => {
             TASK_STATUSES.map((status) => {
               return(
                 <option key={status} value={status}> {status} </option>
+                
               );
             })
           }
@@ -30,6 +31,7 @@ const Task = (props) => {
       </div>
       <hr/>
       <div className="task-body"> {props.task.description} </div>
+      <div className="task-timer">{props.task.timer}s</div>
     </div>
   );
 };

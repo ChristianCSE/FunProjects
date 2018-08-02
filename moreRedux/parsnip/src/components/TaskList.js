@@ -10,6 +10,7 @@ const TaskList = (props) => {
         <strong>{props.status}</strong>
       </div>
       {
+        //constructing a Task Component per task json object 
         props.tasks.map((task)=>{
           //passing our props
           return(

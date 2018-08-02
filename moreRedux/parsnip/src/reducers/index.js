@@ -24,7 +24,8 @@ import {
   CREATE_TASK_SUCCEEDED, 
   EDIT_TASK_SUCCEEDED,
   FETCH_TASKS_STARTED, 
-  FETCH_TASKS_FAILED } from '../constants';
+  FETCH_TASKS_FAILED, 
+  TIMER_STARTED } from '../constants';
 
 //once integrated with Redux, state is retrieved via store which 
 //calls getState(), action is from our action creator getting dispatched 
@@ -85,8 +86,6 @@ export default function tasks(state = initialState, action){
     }
     //NOTE: this is different from the EDIT_TASK action 
     case EDIT_TASK_SUCCEEDED: {
-      console.log(EDIT_TASK_SUCCEEDED);
-      console.log('should be changing placement');
       const { payload } = action; 
       // return {
       //   // remember that Objects must be kept IMMUTABLE! 
@@ -114,6 +113,16 @@ export default function tasks(state = initialState, action){
         isLoading: false, 
         error: action.payload.error
       }
+    }
+    case TIMER_STARTED: {
+      const nextTasks = state.tasks.map((task) => {
+        return (task.id === action.payload.taskId) ?
+        //again using shorthand Object.assign({}, task, ...)
+        { ...task, timer: task.timer + 1 } : task;
+      });
+      //NOTE: This is equivalent to Object.assign() -- this is done to conserve 
+      //immutability
+      return { ...state, tasks: nextTasks }; 
     }
     default: {
       return state;

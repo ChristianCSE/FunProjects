@@ -6,11 +6,14 @@ import {
   CREATE_TASK_SUCCEEDED,
   EDIT_TASK_SUCCEEDED,
   FETCH_TASKS_STARTED,
-  FETCH_TASKS_FAILED } from '../constants';
+  FETCH_TASKS_FAILED, 
+  TIMER_STARTED, 
+  TIMER_STOPPED } from '../constants';
 import * as api from '../api';
-let _id = 1;
 
-export const uniqueId = () => _id++;
+// let _id = 1;
+
+// export const uniqueId = () => _id++;
 //export function uniqueId() { return _id++; }
 
 //our action object
@@ -80,7 +83,7 @@ export const fetchTasksSucceeded = (tasks) => {
   return {
     type: FETCH_TASKS_SUCCEEDED,
     payload: {
-      tasks
+      taskId
     }
   };
 };
@@ -121,25 +124,66 @@ const editTasksSucceeded = (task) => {
 const getTaskById = (tasks, id) => tasks.find(task => task.id === id);
 
 
-export const editTask = (id, params={}) => {
-  //redux thunk allows us to send functions to the ... store? 
-  return (dispatch, getState) => {
-    console.log('editTask: ', getState());
-    // get specific task (sub-state) wrt id
-    const task = getTaskById(getState().tasks.tasks, id); 
-    console.log('task: ', task);
-    // IMMUTABILITY needs to be maintained
-    const updatedTask = Object.assign({}, task, params);
-    // invoke API (then dispatch action )
-    api.editTask(id, updatedTask)
-    .then((resp) => {
-      console.log('editTask returning from api: ', resp);
-      dispatch(editTasksSucceeded(resp.data));
-    }).catch(err => {
-      console.error('err: ', err);
-    });
-  }
+// export const editTask = (id, params={}) => {
+//   //redux thunk allows us to send functions to the ... store? 
+//   return (dispatch, getState) => {
+//     // get specific task (sub-state) wrt id
+//     const task = getTaskById(getState().tasks.tasks, id); 
+//     // IMMUTABILITY needs to be maintained
+//     const updatedTask = Object.assign({}, task, params);
+//     // invoke API (then dispatch action )
+//     api.editTask(id, updatedTask)
+//     .then((resp) => {
+//       dispatch(editTasksSucceeded(resp.data));
+//     }).catch(err => {
+//     });
+//   }
+// };
+
+const progressTimerStart = (taskId) => {
+  return { 
+    type: TIMER_STARTED, 
+    payload: {taskId} 
+  };
 };
+
+const progressTimerStop = (taskId) => {
+  return {
+    type: TIMER_STOPPED, 
+    payload: { taskId }
+  };
+};
+
+export const editTask = (id, params={}) => {
+  return (dispatch, getState) => {
+    const tasks = getTaskById(getState().tasks.tasks, id);
+    
+    const updatedTask = {
+      ...tasks, 
+      ...params
+    };
+
+    api.editTask(id, updatedTask)
+    .then( (resp) => {
+      //NOTE: WE have not returned; hence, this the method continues to go 
+      dispatch( editTasksSucceeded(resp.data) );
+      //An action that will trigger countdown! 
+      if (resp.data.status === 'In Progress') {
+        dispatch( progressTimerStart(resp.data.id) );
+      }
+
+      //if old status was In Progress that means we should stop the timer 
+      //editTask is ONLY triggered by changing status; hence, your old status
+      //is no longer your current status, since you obviously just updated it. 
+      if (tasks.status === 'In Progress') {
+        return dispatch( progressTimerStop(resp.data.id) );
+      }
+
+    } )
+
+
+  }
+}
 
 
 const fetchTasksStarted = () => {
