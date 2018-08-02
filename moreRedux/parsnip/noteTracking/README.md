@@ -94,4 +94,6 @@ return dispatch => {
 ===> Therefore, we use `takeLatest` rather than `takeEvery`
 =>`channel`: (processes) objects used to send & receive msgs b/w tasks. = give a name to a saga process
 
-## 
+## take()
+=> `take()` can be config'd to accept & respond to more than one action type at a time. 
+=> pass it an array of action type strings as the first arg. 

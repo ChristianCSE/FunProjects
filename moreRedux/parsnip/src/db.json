@@ -5,41 +5,41 @@
       "title": "Learn Redux",
       "description": "Store, actions, reducers",
       "status": "Unstarted",
-      "timer": 26
+      "timer": 38
     },
     {
       "id": 2,
       "title": "Peace",
       "description": "No big deal.",
-      "status": "Completed",
-      "timer": 20
+      "status": "Unstarted",
+      "timer": 28
     },
     {
       "id": 3,
       "title": "Create FB for dogs",
       "description": "Best social network",
       "status": "Unstarted",
-      "timer": 25
+      "timer": 41
     },
     {
       "title": "sad",
       "description": "dsa",
-      "status": "Completed",
-      "timer": 20,
+      "status": "Unstarted",
+      "timer": 29,
       "id": 4
     },
     {
       "title": "sdokasdok",
       "description": "somethign",
       "status": "Unstarted",
-      "timer": 96,
+      "timer": 116,
       "id": 5
     },
     {
       "title": "Something",
       "description": "Nothing",
       "status": "Unstarted",
-      "timer": 86,
+      "timer": 103,
       "id": 6
     },
     {
@@ -47,7 +47,7 @@
       "description": "Dummy",
       "status": "Unstarted",
       "id": 7,
-      "timer": 45
+      "timer": 62
     }
   ]
 }

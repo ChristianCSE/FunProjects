@@ -46,12 +46,12 @@ function* takeLatestById(actionType, saga) {
     const action = yield take(actionType); //this waits until action type is received?
     const { taskId } = action.payload; 
     //if taskId DNE then create a new one
-    if (channelsMap[taskId]) {
-      console.log('Does exist in channelsMap: ', channelsMap);
-    }
+    // if (channelsMap[taskId]) {
+    //   //console.log('Does exist in channelsMap: ', channelsMap);
+    // }
     if (!channelsMap[taskId]) {
       channelsMap[taskId] = channel(); 
-      console.log('DNE in channelsMap: ', channelsMap);
+      //console.log('DNE in channelsMap: ', channelsMap);
       yield takeLatest(channelsMap[taskId], saga);
     }
     //replace the existing channel with this process
@@ -63,7 +63,7 @@ function* takeLatestById(actionType, saga) {
 function* handleProgressTimer({ payload, type }){
   //NOTE: if type is TIMER_STOPPED then all we do is not go through with this 
   //It will bypass the infinite loop (NOTE: we don't treat this action type in 
-  //our reducer )
+  //our reducer)
   if (type === TIMER_STARTED){
   //console.log('is this invoked at startup'); this ENTIRE method is invoked!
     while (true) {
