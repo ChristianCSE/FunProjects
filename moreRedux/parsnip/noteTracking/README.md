@@ -122,3 +122,59 @@ passed as props to React.
 to a connected component. Again, this bridges the fap b/w data in Redux & data in Components. 
 => It is where selectors in general are applied. 
 => IOW, `selectors` are invoked in `mapStateToProps` prior to providing data to view. 
+We obviously don't want to balloon up `mapStateToProps` with a multitude of `selectors`; hence, 
+a popular convention is to: 
+=> extract `selectors` out of `mapStateToProps` and into separate, reusable selector fxns.
+
+Rather than having this in `mapStateToProps` we place it in our `reducers/index.js`
+=> Resubable 
+=> Easily testable in isolation 
+```js 
+export const getFilteredTasks = (tasks, searchTerm) => {
+  return tasks.filter((task) => {
+    return tasks.title.match(new RegExp(searchTerm, 'i'));
+  });
+}
+```
+in `src/App.js`
+```js
+import { getFilteredTasks } from './reducers/';
+const mapStateToProps = (state) => {
+  const { tasks, isLoading, error, searchTerm } = state.tasks;
+  return { 
+    tasks: getFilteredTasks(task, searchTerm), 
+    isLoading, 
+    error
+  };
+}
+```
+
+
+# Normalized
+```js 
+{
+  projects: {
+    items: {
+      '1': {
+        id: 1, 
+        name: 'Short-Term Goals', 
+        tasks: [1, 3]
+      },
+      '2':{
+        id: 2,
+        name: 'Long-Term Goals', 
+        tasks: [ 2 ]
+      }
+    },
+    isLoading: false,
+    error: null
+  }, 
+  tasks: {
+    items: {
+      '1': {id: 1, projectId: 1, /*...*/},
+      '2': {id: 2, projectId: 2, /*...*/},
+      '3': {id: 3, projectId: 1, /*...*/}
+    }
+  }
+}
+```

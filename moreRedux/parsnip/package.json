@@ -9,7 +9,8 @@
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "redux-saga": "^0.16.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -12,6 +12,5 @@ export const TIMER_STARTED = 'TIMER_STARTED';
 export const TIMER_STOPPED = 'TIMER_STOPPED';
 export const FILTER_TASKS = 'FILTER_TASKS';
 
-
 // dev endpoint
 export const API_ENDPOINT = 'http://localhost:3001';

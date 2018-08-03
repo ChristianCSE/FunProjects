@@ -2,7 +2,7 @@
 import React from 'react';
 import TaskList from './TaskList';
 
-const TASK_STATUSES = ['Unstarted', 'In Progress', 'Completed'];
+//const TASK_STATUSES = ['Unstarted', 'In Progress', 'Completed'];
 /*
 Due to TasksPage not being a CONNECTED COMPONENT, DIPSATCHING an ACTION
 will have to TAKE PLACE in ITS PARENT COMPONENT. 
@@ -66,19 +66,38 @@ class TasksPage extends React.Component {
 
   //NOTE: We are rendering another component here!
   renderTasksLists = () => {
-    const { tasks } = this.props;
-    return TASK_STATUSES.map((status) => {
-      //console.log('renderTasksLists: ',tasks);
-      const statusTasks = tasks.filter(task => task.status === status);
+    
+    //previously looped through all tasks and filtered by Status
+    // O(# of statuses * N)
+    // const { tasks } = this.props;
+    // return TASK_STATUSES.map((status) => {
+    //   //console.log('renderTasksLists: ',tasks);
+    //   const statusTasks = tasks.filter(task => task.status === status);
 
-      //all these passed properties get passed under props.NAME
-      return(
+    //   //all these passed properties get passed under props.NAME
+    //   return(
+    //     <TaskList 
+    //       key={status} 
+    //       status={status} 
+    //       tasks={statusTasks} 
+    //       //we continue the downward flow of the action creator 
+    //       onStatusChange={this.props.onStatusChange}
+    //     />
+    //   );
+    // });
+    
+    //now looping by O(# of statuses)
+    const { onStatusChnage, tasks } = this.props; 
+    return Object.keys(tasks).map( (status) => {
+      //tasks are grouped by status key, retrieve the array of tasks 
+      //categorized under the current status 
+      const tasksByStatus = tasks[status];
+      return (
         <TaskList 
-          key={status} 
-          status={status} 
-          tasks={statusTasks} 
-          //we continue the downward flow of the action creator 
-          onStatusChange={this.props.onStatusChange}
+          key={status}
+          status={status}
+          tasks={tasksByStatus}
+          onStatusChange={onStatusChnage}
         />
       );
     });

@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import TasksPage from './components/TasksPage';
 import FlashMessage from './components/FlashMessage';
 import { createTask, editTask, fetchTasks, filterTasks } from './actions';
+// import { getFilteredTasks } from './reducers';
+import { getGroupedAndFilteredTasks } from './reducers';
+
 
 //<TasksPage tasks={mockTasks} /> 
 /* 
@@ -77,17 +80,20 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   //for each key returned from Redux STORE make their data available to Components via Props
   //const { tasks, isLoading, error } = state.tasks; 
-  const { isLoading, error, searchTerm } = state.tasks; 
+  const { tasks, isLoading, error, searchTerm } = state.tasks; 
   
   //doing the filtering here allows the components to be more generic and flexible 
-  const tasks = state.tasks.tasks.filter((task) => {
-    //case insentive flag = i
-    //filter only keeps the item iff returned true
-    //NOTE: input is not guarenteed to be clean (errors can occur)
-    return task.title.match(new RegExp(searchTerm, 'i'));
-  });
+  // const tasks = state.tasks.tasks.filter((task) => {
+  //   //case insentive flag = i
+  //   //filter only keeps the item iff returned true
+  //   //NOTE: input is not guarenteed to be clean (errors can occur)
+  //   return task.title.match(new RegExp(searchTerm, 'i'));
+  // });
 
-  return { tasks, isLoading, error };
+  //return { tasks: getFilteredTasks(tasks, searchTerm), isLoading, error };
+  //NOTE: getGroupedAndFilteredTasks() also invokes getFilteredTasks
+  //Also, we are sending the entire state rather than individual sub-states
+  return { tasks: getGroupedAndFilteredTasks(state), isLoading, error};
 };
 //due to this, we now refer to our state as this.props.tasks
 

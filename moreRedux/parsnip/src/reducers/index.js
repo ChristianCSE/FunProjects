@@ -26,9 +26,55 @@ import {
   FETCH_TASKS_STARTED, 
   FETCH_TASKS_FAILED, 
   TIMER_STARTED, 
-  FILTER_TASKS} from '../constants';
+  FILTER_TASKS,
+  TASK_STATUSES } from '../constants';
 
-//once integrated with Redux, state is retrieved via store which 
+import { createSelector } from 'reselect';
+
+/**
+ * abstracting & modularizing our generalized selector function
+ * rather than having it all in mapStateToProps, we isolate it 
+ * => easier to reuse & test individually 
+ * We place selectors in /reducers due to convention
+*/
+// export const getFilteredTasks = (tasks, searchTerm) => {
+//   return tasks.filter((task) => {
+//     return task.title.match(new RegExp(searchTerm, 'i'));
+//   });
+// };
+
+const getTasks = state => state.tasks.tasks;
+const getSearchTerm = state => state.tasks.searchTerm;
+
+//createSelector changes it to be a memoized selector 
+//createSelector([input selectors (not memoized)], transform fxn = result of each input selector)
+//being a pure fxn is important since the same input should have same output = safe associate inputs 
+//with results 
+export const getFilteredTasks = createSelector(
+  [getTasks, getSearchTerm], 
+  (tasks, searchTerm) => {
+    return tasks.filter((task)=>{
+      return task.title.match(new RegExp(searchTerm, 'i'));
+    })
+  }
+);
+
+//group task by status
+export const getGroupedAndFilteredTasks = createSelector(
+  // NOTE: we are using an existing memoized selector as an INPUT selector 
+  [getFilteredTasks], 
+  (task) => {
+    //task: are tasks after being filtered!
+    const grouped = {}; //['In Progress': [{}, {}, {}] ...]
+    TASK_STATUSES.forEach( (status) => {
+      grouped[status] = task.filter(task => task.status === status)
+    });
+    return grouped;
+  }
+)
+
+
+  //once integrated with Redux, state is retrieved via store which 
 //calls getState(), action is from our action creator getting dispatched 
 //export default function tasks(state = {tasks: mockTasks} , action){
 
