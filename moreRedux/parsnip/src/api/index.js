@@ -18,3 +18,7 @@ export const createTask = (params) => client.post('/tasks', params);
 //Previously had error with api name! (was giving a 404 error)
 export const editTask = (id, params) => axios.put(`${API_BASE_URL}/tasks/${id}`, params);
 
+
+//NOTE: ?_embed=tasks is specifying that tasks SHOULD BE EMBEDDED WITHIN PROJECTS 
+//in the API RESP! 
+export const fetchProjects = () => client.get('/projects?_embed=tasks');

@@ -178,3 +178,24 @@ const mapStateToProps = (state) => {
   }
 }
 ```
+
+
+# Tasks within Projects 
+=> we've added a NEW PAGE PROPERTY to the STATE TREE. 
+```js
+const initialState = {
+  items: [], 
+  isLoading: false, 
+  error: null
+};
+
+const initialPageState = {
+  currentProjectId: null, 
+  searchTerm: ''
+};
+```
+=> PAGE SECTION
+=> The problem with nested data is due to the complexity wrt updating data. 
+
+# Aside 
+UI-related state => ui reducer

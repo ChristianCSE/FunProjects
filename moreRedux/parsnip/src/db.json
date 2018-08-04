@@ -1,59 +1,78 @@
 {
+  "projects": [
+    {
+      "id": 1, 
+      "name": "Short-Term Goals"
+    }, 
+    {
+      "id": 2, 
+      "name": "Long-Term Goals"
+    }
+  ],
   "tasks": [
     {
       "id": 1,
       "title": "Learn Redux",
       "description": "Store, actions, reducers",
       "status": "Completed",
-      "timer": 60
+      "timer": 60, 
+      "projectId": 1
     },
     {
       "id": 2,
       "title": "Peace",
       "description": "No big deal.",
       "status": "Unstarted",
-      "timer": 28
+      "timer": 28, 
+      "projectId": 1
     },
     {
       "id": 3,
       "title": "Create FB for dogs",
       "description": "Best social network",
       "status": "Completed",
-      "timer": 62
+      "timer": 62, 
+      "projectId": 1
     },
     {
       "title": "sad",
       "description": "dsa",
       "status": "Unstarted",
-      "timer": 29,
-      "id": 4
+      "id": 4,
+      "timer": 29, 
+      "projectId": 1
     },
     {
       "title": "sdokasdok",
       "description": "somethign",
       "status": "Completed",
-      "timer": 136,
-      "id": 5
+      "id": 5,
+      "timer": 136, 
+      "projectId": 2
     },
     {
       "title": "Something",
       "description": "Nothing",
       "status": "Unstarted",
-      "timer": 103,
-      "id": 6
+      "id": 6,
+      "timer": 103, 
+      "projectId": 2
     },
     {
       "title": "Something",
       "description": "Dummy",
       "status": "Unstarted",
       "id": 7,
-      "timer": 62
+      "timer": 62, 
+      "projectId": 2
     },
     {
       "title": "Something",
       "description": "Else",
       "status": "Unstarted",
-      "id": 8
+      "id": 8, 
+      "timer": 62, 
+      "projectId": 2
     }
   ]
 }

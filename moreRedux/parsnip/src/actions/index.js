@@ -9,7 +9,12 @@ import {
   FETCH_TASKS_FAILED, 
   TIMER_STARTED, 
   TIMER_STOPPED, 
-  FILTER_TASKS } from '../constants';
+  FILTER_TASKS, 
+  FETCH_PROJECTS_STARTED, 
+  FETCH_PROJECTS_SUCCEEDED,
+  FETCH_PROJECTS_FAILED,
+  SET_CURRENT_PROJECT_ID
+} from '../constants';
 import * as api from '../api';
 
 // let _id = 1;
@@ -241,3 +246,31 @@ export const filterTasks = (searchTerm) => {
     }
   };
 };
+
+
+//Implementing fetchProjects and following generic flow 
+//START, SUCCESS || FAILURE 
+
+const fetchProjectStarted = (boards) => ( {type: FETCH_PROJECTS_STARTED, payload: {boards}} );
+
+const fetchProjectSucceeded = (projects) => ( {type: FETCH_PROJECTS_SUCCEEDED, payload: {projects}} );
+
+const fetchProjectFailed = (err) => ( {type: FETCH_PROJECTS_FAILED, payload: {err}} );
+
+export const fetchProjects = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchProjectStarted()); //have initiated request 
+    return api.fetchProjects()
+    .then((resp) => {
+      console.log('is this even callled? ', resp);
+      const projects = resp.data; 
+      console.log('projects are here: ', projects);
+      dispatch(fetchProjectSucceeded(projects));
+    }).catch((err) => {
+      console.error('ERROR fetchProjects: ', err);
+      dispatch(fetchProjectFailed(err));
+    });
+  };
+};
+
+export const setCurrentProjectId = (id) => ( {type: SET_CURRENT_PROJECT_ID, payload: {id}} );

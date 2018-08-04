@@ -16,7 +16,7 @@ import rootSaga from './sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 //import tasks from './reducers';
-import tasksReducer from './reducers';
+import { tasks, projects, page } from './reducers';
 
 import App from './App';
 
@@ -28,8 +28,12 @@ import './index.css';
 //and are sending a sub-state to a particular reducer
 const rootReducer = (state = {}, action) => {
   return {
-    tasks: tasksReducer(state.tasks, action), 
+    projects: projects(state.projects, action),
+    //NOTE: we can extract the substate BEFORE passing it to our reducer!!!!!!
+    tasks: tasks(state.tasks, action), 
+    page: page(state.page, action)
     //projects: projectReducer(state.projects, action)
+
   };
 };
 //the functionality we just did above is what 

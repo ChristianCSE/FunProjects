@@ -27,7 +27,11 @@ import {
   FETCH_TASKS_FAILED, 
   TIMER_STARTED, 
   FILTER_TASKS,
-  TASK_STATUSES } from '../constants';
+  TASK_STATUSES, 
+  FETCH_PROJECTS_STARTED,
+  FETCH_PROJECTS_SUCCEEDED,
+  SET_CURRENT_PROJECT_ID
+} from '../constants';
 
 import { createSelector } from 'reselect';
 
@@ -45,19 +49,31 @@ import { createSelector } from 'reselect';
 
 const getTasks = state => state.tasks.tasks;
 const getSearchTerm = state => state.tasks.searchTerm;
+const getTasksByProjectId = state => {
+  //if no id selected/given then return blank array 
+  const currProjID = state.page.currentProjectId;
+  if (!currProjID) return [];
+  //go through our array of projects and return the one with the selected key (stops once found)
+  //note an object will be returned 
+  const currentProject = state.projects.items.find(project => project.id === currProjID);
+  return currentProject.tasks;
+}
 
 //createSelector changes it to be a memoized selector 
 //createSelector([input selectors (not memoized)], transform fxn = result of each input selector)
 //being a pure fxn is important since the same input should have same output = safe associate inputs 
 //with results 
 export const getFilteredTasks = createSelector(
-  [getTasks, getSearchTerm], 
+  //[getTasks, getSearchTerm], 
+  //NOTE: We changed ONE of the INPUT SELECTORS 
+  [getTasksByProjectId, getSearchTerm],
   (tasks, searchTerm) => {
     return tasks.filter((task)=>{
       return task.title.match(new RegExp(searchTerm, 'i'));
     })
   }
 );
+
 
 //group task by status
 export const getGroupedAndFilteredTasks = createSelector(
@@ -80,15 +96,72 @@ export const getGroupedAndFilteredTasks = createSelector(
 
 
 //DEFINING init state (current use: isLoading is false )
+/*
 const initialState = {
   tasks: [], 
   isLoading: false, 
   error: null, 
   searchTerm: ''
 };
+*/
+
+//NOTE: items added, and searchTerm removed 
+const initialState = {
+  items: [], //contains projects 
+  isLoading: false, 
+  error: null 
+};
+
+const initialPageState = {
+  currentProjectId: null, 
+  searchTerm: ''
+};
+
+export function page(state= initialPageState, action){ 
+  switch (action.type) {
+    case SET_CURRENT_PROJECT_ID: {
+      return {
+        ...state, 
+        currentProjectId: action.payload.id 
+      }
+    }
+    case FILTER_TASKS: {
+      return {
+        ...state, 
+        searchTerm: action.payload.searchTerm
+      }
+    }
+    default: {
+      return state; 
+    }
+  }
+}
+
+//NOTE: Seperate reducer 
+export function projects(state = initialState, action){
+  switch (action.type) {
+    case FETCH_PROJECTS_STARTED: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+    case FETCH_PROJECTS_SUCCEEDED: {
+      console.log('action.payload.projects: ', action.payload.projects)
+      return {
+        ...state, 
+        isLoading: false, 
+        items: action.payload.projects
+      }
+    }
+    default: {
+      return state; 
+    }
+  }
+}
 
 //export default function tasks(state = {tasks: []}, action){
-export default function tasks(state = initialState, action){
+export function tasks(state = initialState, action){
   switch(action.type) {
     case CREATE_TASK: {
       return {
