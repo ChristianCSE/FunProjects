@@ -177,15 +177,13 @@ export const editTask = (id, params={}) => {
       if (resp.data.status === 'In Progress') {
         dispatch( progressTimerStart(resp.data.id) );
       }
-
       //if old status was In Progress that means we should stop the timer 
       //editTask is ONLY triggered by changing status; hence, your old status
       //is no longer your current status, since you obviously just updated it. 
       if (tasks.status === 'In Progress') {
         return dispatch( progressTimerStop(resp.data.id) );
       }
-
-    } )
+    })
 
 
   }
@@ -262,9 +260,10 @@ export const fetchProjects = () => {
     dispatch(fetchProjectStarted()); //have initiated request 
     return api.fetchProjects()
     .then((resp) => {
-      console.log('is this even callled? ', resp);
+      //console.log('is this even callled? ', resp);
       const projects = resp.data; 
-      console.log('projects are here: ', projects);
+      console.log('Remember that projects, due to json-server, embedd tasks by doing _embed=tasks in our get request');
+      console.log('projects should contain tasks: ', projects);
       dispatch(fetchProjectSucceeded(projects));
     }).catch((err) => {
       console.error('ERROR fetchProjects: ', err);

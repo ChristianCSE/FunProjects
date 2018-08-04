@@ -147,18 +147,55 @@ export function projects(state = initialState, action){
       };
     }
     case FETCH_PROJECTS_SUCCEEDED: {
-      console.log('action.payload.projects: ', action.payload.projects)
+      console.log('action.payload.projects: ', action.payload.projects);
       return {
         ...state, 
         isLoading: false, 
         items: action.payload.projects
       }
     }
+    case CREATE_TASK_SUCCEEDED: {
+      // return {
+      //   ...state, 
+      //   tasks: state.tasks.concat(action.payload.task)
+      // }
+      //we have to create a tasks wrt the fact that they belong to projects
+
+      const { task } = action.payload; 
+      //this returns the index array position of the object 
+      //your projectId has NOTHING to do your position in the array!
+      const projectIndex = state.items.findIndex(project => project.id === task.projectId);
+      //the project that received a new task
+      const project = state.items[projectIndex];
+      //by making a new task, we are essentially changing the project object too! 
+      //to maintain immutability we must make A NEW ITEMS ARRAY 
+
+      const nextProject = {
+        ...project,
+        tasks: project.tasks.concat(task)
+      };
+      return {
+        ...state, 
+        items: [
+          ...state.items.slice(0, projectIndex), 
+          nextProject, 
+          ...state.items.slice(projectIndex+1)
+        ]
+      };
+    }
     default: {
       return state; 
     }
   }
 }
+
+//projects: RECEIVE_ENTITIES, FETCH_PROJECTS_STARTED, FETCH_PROJECTS_SUCCEEDED, CREATE_TASK_SUCCEEDED
+//page: SET_CURRENT_PROJECT_ID, FILTER_TASKS
+
+
+//by the end, tasks will only contain: 
+//tasks: RECEIVE_ENTITIES, EDIT_TASK_SUCCEEDED, TIMER_INCREMENT 
+
 
 //export default function tasks(state = {tasks: []}, action){
 export function tasks(state = initialState, action){
@@ -196,6 +233,8 @@ export function tasks(state = initialState, action){
         tasks: action.payload.tasks
       };
     }
+
+/* //NOTE: This was moved to projects. (Current reason, at least to me is unknown)
     case CREATE_TASK_SUCCEEDED: {
       // return {
       //   tasks: state.tasks.concat(action.payload.task)
@@ -205,6 +244,8 @@ export function tasks(state = initialState, action){
         tasks: state.tasks.concat(action.payload.task)
       }
     }
+*/
+
     //NOTE: this is different from the EDIT_TASK action 
     case EDIT_TASK_SUCCEEDED: {
       const { payload } = action; 

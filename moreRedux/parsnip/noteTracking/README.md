@@ -197,5 +197,6 @@ const initialPageState = {
 => PAGE SECTION
 => The problem with nested data is due to the complexity wrt updating data. 
 
+
 # Aside 
 UI-related state => ui reducer

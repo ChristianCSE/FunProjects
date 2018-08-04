@@ -6,7 +6,7 @@ class Header extends React.Component {
     console.log(this.props);
     const projectOptions = this.props.projects.map((project)=>{
       return (
-        <option key={project.key} value={project.id}>
+        <option key={project.id} value={project.id}>
           {project.name}
         </option>
       );
