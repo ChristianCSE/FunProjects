@@ -56,10 +56,18 @@ const createTaskSucceeded = (task) => {
 // };
 
 //async Action creator
-export const createTask = ({title, description, status='Unstarted'}) => {
+export const createTask = (
+  { 
+    title, 
+    description, 
+    status='Unstarted', 
+    //THIS WAS NEVER SPECIFIED!!!!!!
+    projectId
+  }
+  ) => {
   return dispatch => {
     //async part
-    api.createTask({title, description, status}).then((resp) => {
+    api.createTask({title, description, status, projectId}).then((resp) => {
       //sync part
       dispatch(createTaskSucceeded(resp.data));
     })

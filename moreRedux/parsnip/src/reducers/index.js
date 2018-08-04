@@ -118,6 +118,7 @@ const initialPageState = {
 };
 
 export function page(state= initialPageState, action){ 
+  
   switch (action.type) {
     case SET_CURRENT_PROJECT_ID: {
       return {
@@ -139,6 +140,10 @@ export function page(state= initialPageState, action){
 
 //NOTE: Seperate reducer 
 export function projects(state = initialState, action){
+  //console.log('project state: ', state);
+  /*
+    items = [{id: 1, name: 'Short Term Goals', tasks: [{task }]}]
+  */
   switch (action.type) {
     case FETCH_PROJECTS_STARTED: {
       return {
@@ -160,13 +165,14 @@ export function projects(state = initialState, action){
       //   tasks: state.tasks.concat(action.payload.task)
       // }
       //we have to create a tasks wrt the fact that they belong to projects
-
+      console.log('CREATE_TASK_SUCCEEDED: ', action.payload);
       const { task } = action.payload; 
       //this returns the index array position of the object 
       //your projectId has NOTHING to do your position in the array!
       const projectIndex = state.items.findIndex(project => project.id === task.projectId);
       //the project that received a new task
       const project = state.items[projectIndex];
+      console.log('project => ', project);
       //by making a new task, we are essentially changing the project object too! 
       //to maintain immutability we must make A NEW ITEMS ARRAY 
 
@@ -182,6 +188,47 @@ export function projects(state = initialState, action){
           ...state.items.slice(projectIndex+1)
         ]
       };
+    }
+    case EDIT_TASK_SUCCEEDED: {
+      /*
+      const { payload } = action; 
+      //remember that Objects must be kept IMMUTABLE! ;hence, we make a completely new array 
+      const newTasks = state.tasks.map(task => (task.id === payload.task.id) ? payload.task : task);
+      return {
+        ...state, 
+        tasks: newTasks
+      };
+      */
+     //previously: looped through all tasks and constructed a new array BUT only swapping out 
+     //the edited task (still have task in payload, but now have to look through projects and find 
+    //the project that it belongs to and then loop through that project and replace the task instance)
+    const { task } = action.payload; 
+    //task object NEEDS to have a projectId field!
+    //this is the position in the array NOT the id  
+    const projectIndex = state.items.findIndex( project => (project.id === task.projectId));
+    //we have the array index position of the project now we need the task position 
+    const project = state[projectIndex];
+    const taskIndex = project.findIndex( oldTask => (oldTask.id === task.id)); 
+    //are we reconstructing the entire Project object or just the array? 
+    //project with the edited task
+    const newProject = {
+      ...project, 
+      tasks: [
+        project.tasks.slice(0, taskIndex),
+        task, //the edited task
+        project.tasks.slice(taskIndex+1)
+      ]
+    };
+    //return the entire project container with the NEW UPDATED PROJECT 
+    //projects exist in items
+    return {
+      ...state, 
+      items: [
+        state.items.slice(0, projectIndex), 
+        newProject, 
+        state.items.slice(projectIndex+1)
+      ]
+    };
     }
     default: {
       return state; 
@@ -247,6 +294,8 @@ export function tasks(state = initialState, action){
 */
 
     //NOTE: this is different from the EDIT_TASK action 
+    //Now in projects
+    /*
     case EDIT_TASK_SUCCEEDED: {
       const { payload } = action; 
       // return {
@@ -260,6 +309,9 @@ export function tasks(state = initialState, action){
         tasks: newTasks
       };
     }
+    */
+
+
     //trigger our loading animation (due to the change in state => re-render)
     case FETCH_TASKS_STARTED: {
       return {

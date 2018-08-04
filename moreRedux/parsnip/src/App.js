@@ -48,7 +48,13 @@ class App extends React.Component {
   onCreateTask = ({title, description }) => {
     //we have access to this.props.dispatch due to 
     //connect()(App);
-    this.props.dispatch(createTask({ title, description }));
+    this.props.dispatch(
+      createTask({ 
+        title, 
+        description, 
+        projectId: this.props.currentProjectId
+      })
+    );
   }
 
   onStatusChange = (id, status) => {
@@ -130,6 +136,8 @@ const mapStateToProps = (state) => {
   //Remember that our App component has prop access to these parts of our store state! 
   return {
     tasks: getGroupedAndFilteredTasks(state), 
+    //This is probably furhter down 
+    currentProjectId: state.page.currentProjectId,
     projects: items, 
     isLoading, 
     error
