@@ -25,7 +25,8 @@ import {
   EDIT_TASK_SUCCEEDED,
   FETCH_TASKS_STARTED, 
   FETCH_TASKS_FAILED, 
-  TIMER_STARTED, 
+  TIMER_INCREMENT, 
+  TIMER_STARTED,
   FILTER_TASKS,
   TASK_STATUSES, 
   FETCH_PROJECTS_STARTED,
@@ -201,34 +202,38 @@ export function projects(state = initialState, action){
       */
      //previously: looped through all tasks and constructed a new array BUT only swapping out 
      //the edited task (still have task in payload, but now have to look through projects and find 
-    //the project that it belongs to and then loop through that project and replace the task instance)
-    const { task } = action.payload; 
-    //task object NEEDS to have a projectId field!
-    //this is the position in the array NOT the id  
-    const projectIndex = state.items.findIndex( project => (project.id === task.projectId));
-    //we have the array index position of the project now we need the task position 
-    const project = state[projectIndex];
-    const taskIndex = project.findIndex( oldTask => (oldTask.id === task.id)); 
-    //are we reconstructing the entire Project object or just the array? 
-    //project with the edited task
-    const newProject = {
-      ...project, 
-      tasks: [
-        project.tasks.slice(0, taskIndex),
-        task, //the edited task
-        project.tasks.slice(taskIndex+1)
-      ]
-    };
-    //return the entire project container with the NEW UPDATED PROJECT 
-    //projects exist in items
-    return {
-      ...state, 
-      items: [
-        state.items.slice(0, projectIndex), 
-        newProject, 
-        state.items.slice(projectIndex+1)
-      ]
-    };
+      //the project that it belongs to and then loop through that project and replace the task instance)
+      const { task } = action.payload; 
+      console.log('EDIT_TASK_SUCCEEDED: ', tasks);
+      //task object NEEDS to have a projectId field!
+      //this is the position in the array NOT the id  
+      const projectIndex = state.items.findIndex( project => (project.id === task.projectId));
+      //we have the array index position of the project now we need the task position 
+      //remember ITEMS contains all THE PROJECT OBJECTS
+      console.log('projectIndex: ', projectIndex);
+      const project = state.items[projectIndex];
+      console.log('project: ', project);
+      const taskIndex = project.tasks.findIndex( oldTask => (oldTask.id === task.id)); 
+      //are we reconstructing the entire Project object or just the array? 
+      //project with the edited task
+      const newProject = {
+        ...project, 
+        tasks: [
+          ...project.tasks.slice(0, taskIndex),
+          task, //the edited task
+          ...project.tasks.slice(taskIndex+1)
+        ]
+      };
+      //return the entire project container with the NEW UPDATED PROJECT 
+      //projects exist in items
+      return {
+        ...state, 
+        items: [
+          ...state.items.slice(0, projectIndex), 
+          newProject, 
+          ...state.items.slice(projectIndex+1)
+        ]
+      };
     }
     default: {
       return state; 
@@ -328,12 +333,18 @@ export function tasks(state = initialState, action){
         error: action.payload.error
       }
     }
-    case TIMER_STARTED: {
+    case TIMER_INCREMENT: {
+      
+      console.log('is it before mapping? : ', state);
+      console.log('is it before mapping? : ', state.tasks);
+      
       const nextTasks = state.tasks.map((task) => {
         return (task.id === action.payload.taskId) ?
         //again using shorthand Object.assign({}, task, ...)
         { ...task, timer: task.timer + 1 } : task;
       });
+
+      console.log('something going on here: ', nextTasks);
       //NOTE: This is equivalent to Object.assign() -- this is done to conserve 
       //immutability
       return { ...state, tasks: nextTasks }; 

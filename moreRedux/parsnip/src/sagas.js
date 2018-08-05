@@ -10,7 +10,7 @@ import { channel, delay } from 'redux-saga';
 import { fork, take, call, put, takeLatest } from 'redux-saga/effects';
 
 import {
-  FETCH_TASKS_STARTED, FETCH_TASKS_SUCCEEDED, FETCH_TASKS_FAILED, TIMER_STARTED, TIMER_STOPPED
+  FETCH_TASKS_STARTED, FETCH_TASKS_SUCCEEDED, FETCH_TASKS_FAILED, TIMER_STARTED, TIMER_STOPPED, TIMER_INCREMENT
 } from './constants';
 
 import * as api from './api';
@@ -65,15 +65,20 @@ function* handleProgressTimer({ payload, type }){
   //It will bypass the infinite loop (NOTE: we don't treat this action type in 
   //our reducer)
   if (type === TIMER_STARTED){
+    //console.log(TIMER_STARTED);
   //console.log('is this invoked at startup'); this ENTIRE method is invoked!
     while (true) {
+      //console.log(TIMER_STARTED);
       //once it's called it stays
       //console.log('do we just wait...?');
       yield call(delay, 1000); // 1000 ms is used to delay b/w increments 
       //console.log('or does it just stop on call ...?');
       //creates an EFFECT instructing midware to DISPATCH an ACTION to the STORE
+      
+      //NOTE: You are sending another action type TIMER_INCREMENT!!!!!
+
       yield put({
-        type: TIMER_STARTED, 
+        type: TIMER_INCREMENT, 
         payload: { taskId: payload.taskId } 
       });
     }

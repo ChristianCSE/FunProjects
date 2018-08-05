@@ -7,13 +7,14 @@ import {
   EDIT_TASK_SUCCEEDED,
   FETCH_TASKS_STARTED,
   FETCH_TASKS_FAILED, 
-  TIMER_STARTED, 
+  TIMER_INCREMENT, 
   TIMER_STOPPED, 
   FILTER_TASKS, 
   FETCH_PROJECTS_STARTED, 
   FETCH_PROJECTS_SUCCEEDED,
   FETCH_PROJECTS_FAILED,
-  SET_CURRENT_PROJECT_ID
+  SET_CURRENT_PROJECT_ID, 
+  TIMER_STARTED
 } from '../constants';
 import * as api from '../api';
 
@@ -67,6 +68,7 @@ export const createTask = (
   ) => {
   return dispatch => {
     //async part
+    //NOTE: projectId is appended as a field for our task 
     api.createTask({title, description, status, projectId}).then((resp) => {
       //sync part
       dispatch(createTaskSucceeded(resp.data));
@@ -125,14 +127,7 @@ export const fetchTasksSucceeded = (taskId) => {
 // };
 
 //this is our action!
-const editTasksSucceeded = (task) => {
-  return {
-    type: EDIT_TASK_SUCCEEDED, 
-    payload: {
-      task
-    }
-  };
-};
+
 
 //tasks = array
 const getTaskById = (tasks, id) => tasks.find(task => task.id === id);
@@ -148,7 +143,7 @@ const getTaskById = (tasks, id) => tasks.find(task => task.id === id);
 //     // invoke API (then dispatch action )
 //     api.editTask(id, updatedTask)
 //     .then((resp) => {
-//       dispatch(editTasksSucceeded(resp.data));
+//       dispatch(editTaskSucceeded(resp.data));
 //     }).catch(err => {
 //     });
 //   }
@@ -167,20 +162,30 @@ const progressTimerStop = (taskId) => {
     payload: { taskId }
   };
 };
+const editTaskSucceeded = (task) => {
+  return {
+    type: EDIT_TASK_SUCCEEDED, 
+    payload: {
+      task
+    }
+  };
+};
 
-export const editTask = (id, params={}) => {
+//export const editTask = (id, params={}) => {
+export const editTask = (task, params={}) => {  
   return (dispatch, getState) => {
-    const tasks = getTaskById(getState().tasks.tasks, id);
-    
+    //const tasks = getTaskById(getState().tasks.tasks, id);
+    console.log('params: ', params);
+    console.log('task=> ', task);
     const updatedTask = {
-      ...tasks, 
+      ...task, 
       ...params
     };
 
-    api.editTask(id, updatedTask)
+    api.editTask(task.id, updatedTask)
     .then( (resp) => {
       //NOTE: WE have not returned; hence, this the method continues to go 
-      dispatch( editTasksSucceeded(resp.data) );
+      dispatch( editTaskSucceeded(resp.data) );
       //An action that will trigger countdown! 
       if (resp.data.status === 'In Progress') {
         dispatch( progressTimerStart(resp.data.id) );
@@ -188,7 +193,7 @@ export const editTask = (id, params={}) => {
       //if old status was In Progress that means we should stop the timer 
       //editTask is ONLY triggered by changing status; hence, your old status
       //is no longer your current status, since you obviously just updated it. 
-      if (tasks.status === 'In Progress') {
+      if (task.status === 'In Progress') {
         return dispatch( progressTimerStop(resp.data.id) );
       }
     })

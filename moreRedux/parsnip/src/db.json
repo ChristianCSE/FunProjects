@@ -53,7 +53,7 @@
     {
       "title": "Something",
       "description": "Nothing",
-      "status": "Unstarted",
+      "status": "Completed",
       "id": 6,
       "timer": 103,
       "projectId": 2
@@ -61,7 +61,7 @@
     {
       "title": "Something",
       "description": "Dummy",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 7,
       "timer": 62,
       "projectId": 2
@@ -69,7 +69,7 @@
     {
       "title": "Something",
       "description": "Else",
-      "status": "Unstarted",
+      "status": "Completed",
       "id": 8,
       "timer": 62,
       "projectId": 2
@@ -91,6 +91,13 @@
       "description": "No",
       "status": "Unstarted",
       "id": 11
+    },
+    {
+      "title": "Smo",
+      "description": "nsa",
+      "status": "In Progress",
+      "projectId": 2,
+      "id": 12
     }
   ]
 }

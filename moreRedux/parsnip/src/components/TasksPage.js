@@ -87,7 +87,7 @@ class TasksPage extends React.Component {
     // });
     
     //now looping by O(# of statuses)
-    const { onStatusChnage, tasks } = this.props; 
+    const { onStatusChange, tasks } = this.props; 
     return Object.keys(tasks).map( (status) => {
       //tasks are grouped by status key, retrieve the array of tasks 
       //categorized under the current status 
@@ -97,7 +97,7 @@ class TasksPage extends React.Component {
           key={status}
           status={status}
           tasks={tasksByStatus}
-          onStatusChange={onStatusChnage}
+          onStatusChange={onStatusChange}
         />
       );
     });

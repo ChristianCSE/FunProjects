@@ -11,7 +11,9 @@ const Task = (props) => {
 
   //NOTE: That we had to pass down this method from App (our top parent component)
   const onStatusChange = (e) => {
-    props.onStatusChange(props.task.id, e.target.value);
+    //SEND PROPS.TASK NOT JUST THE ID!!!!
+    console.log(props.task);
+    props.onStatusChange(props.task, e.target.value);
   };
 
   return(
