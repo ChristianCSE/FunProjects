@@ -61,7 +61,7 @@
     {
       "title": "Something",
       "description": "Dummy",
-      "status": "In Progress",
+      "status": "Unstarted",
       "id": 7,
       "timer": 62,
       "projectId": 2

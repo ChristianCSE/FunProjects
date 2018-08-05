@@ -82,6 +82,7 @@ class App extends React.Component {
 //Our STORE contains our App's STATE, this is simply MAPPING 
 //the STORE (state) into PROPS for COMPONENT PROP CONSUMPTION 
 const mapStateToProps = (state) => {
+  console.log(state);
   const { isLoading, error, items } = state.projects;
   const currentProjectId = state.page.currentProjectId;
   //the component associated with this via connect() will 
